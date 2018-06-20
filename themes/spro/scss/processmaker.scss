@@ -1,0 +1,159 @@
+
+/* crmv@154044 */
+
+/* StartEvent task */
+*[data-element-id^="StartEvent_"] .djs-visual circle {
+	fill: #a5d6a7;
+	stroke: #81c784;
+}
+
+/* EndEvent task */
+*[data-element-id^="EndEvent_"] .djs-visual circle {
+	fill: #b0bec5;
+	stroke: #90a4ae;
+}
+
+/* Script task */
+*[data-element-id^="ScriptTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+*[data-element-id^="ScriptTask_"] .djs-visual .djs-label {
+	fill: #000000;
+}
+*[data-element-id^="ScriptTask_"] .djs-visual path {
+	stroke: #000000;
+}
+
+/* UserTask */
+*[data-element-id^="UserTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* ReceiveTask */
+*[data-element-id^="ReceiveTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* SendTask */
+*[data-element-id^="SendTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* ManualTask */
+*[data-element-id^="ManualTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* BusinessRuleTask */
+*[data-element-id^="BusinessRuleTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* ServiceTask */
+*[data-element-id^="ServiceTask_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* CallActivity */
+*[data-element-id^="CallActivity_"] .djs-visual rect {
+	fill: #80cbc4;
+	stroke: #eeeeee;
+}
+
+/* SubProcess */
+*[data-element-id^="SubProcess_"] .djs-visual rect {
+	fill: #b2dfdb;
+	stroke: #eeeeee;
+}
+
+*[data-element-id^="SubProcess_"] .djs-visual rect:nth-of-type(2) {
+	fill: white;
+	stroke: #eeeeee;
+}
+
+/* Task */
+*[data-element-id^="Task_"] .djs-visual rect {
+	fill: #90caf9;
+	stroke: #eeeeee;
+}
+*[data-element-id^="Task_"] .djs-visual .djs-label {
+	fill: #000000;
+}
+
+/* ExclusiveGateway */
+*[data-element-id^="ExclusiveGateway_"] .djs-visual polygon {
+	fill: #ffa726;
+	stroke: #eeeeee;
+}
+
+/* ParallelGateway */
+*[data-element-id^="ParallelGateway_"] .djs-visual polygon {
+	fill: #ffa726;
+	stroke: #eeeeee;
+}
+
+/* InclusiveGateway */
+*[data-element-id^="InclusiveGateway_"] .djs-visual polygon {
+	fill: #ffa726;
+	stroke: #eeeeee;
+}
+
+/* ComplexGateway */
+*[data-element-id^="ComplexGateway_"] .djs-visual polygon {
+	fill: #ffa726;
+	stroke: #eeeeee;
+}
+
+/* EventBasedGateway */
+*[data-element-id^="EventBasedGateway_"] .djs-visual polygon {
+	fill: #ffa726;
+	stroke: #eeeeee;
+}
+
+/* SequenceFlow */
+*[data-element-id^="SequenceFlow_"] .djs-visual path {
+	stroke: #b0bec5;
+}
+
+*[id^="marker"] path {
+	fill: #b0bec5;
+}
+
+.djs-container {
+	background-color: #eeeeee;
+}
+
+.djs-palette {
+	/*background-color: #16556F;*/
+	border-radius: 2px;
+	box-shadow: none;
+}
+
+.djs-palette [class^="bpmn-icon-"]:before, .djs-palette [class*=" bpmn-icon-"]:before {
+	line-height: 46px;
+	/*color: #ffffff;*/
+}
+
+.djs-context-pad .entry {
+	width: 30px;
+	box-shadow: none;
+}
+
+.highlights-shape:not(.djs-connection) .djs-visual > :nth-child(1) {
+	stroke: #283593 !important;
+}
+
+.current-shape:not(.djs-connection) .djs-visual > :nth-child(1) {
+	stroke: #283593 !important;
+}
+
+.executer-shape:not(.djs-connection) .djs-visual > :nth-child(1) {
+	stroke: #ff7043 !important;
+}

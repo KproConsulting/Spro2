@@ -1,0 +1,54 @@
+/* ANYTHEME - PRINTING */
+
+@import 'vars/colors';
+
+/* crmv@27236 */
+#winMax {
+    display:none;
+}
+
+#winMaxImg {
+    display:none;
+}
+
+div#orange {
+	display:none;
+}
+
+div#vte_menu {
+	position: absolute;
+	width:100%;
+	top: 0px;
+	left: 0px;
+}
+/* crmv@27236e */
+
+/* crmv@42801 */
+#header_detail_large_link, #header_detail_small_link, .header_detail_options, .DetailViewWidget {
+	display:none;
+}
+/* crmv@42801e */
+
+// crmv@145406
+
+#vte_menu {
+	display: none;
+}
+
+#vte_menu_white {
+	display: none;
+}
+
+#DetailViewTabs {
+	display: none;
+}
+
+#turboLiftContainer {
+	display: none;
+}
+
+a[href]:after {
+	content: none !important;
+}
+
+// crmv@145406e

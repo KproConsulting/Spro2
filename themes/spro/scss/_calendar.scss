@@ -1,0 +1,71 @@
+#addEvent .nav-tabs {
+	background-color: $white;
+	border: 0px none;
+}
+
+#addEvent .nav-tabs > li > a, #addEvent .nav-tabs > li > a:hover, #addEvent .nav-tabs > li > a:focus {
+	color: $black !important;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+#addEvent .nav-tabs > li:not(.active) > a {
+	color: #BBBBBB !important;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+#addEvent .nav-tabs > li.active {
+	border-bottom: 3px solid $vte-primary;
+}
+
+#addEvent .active {
+	color: $black;
+}
+
+#addEvent label {
+	font-weight: normal;
+}
+
+#addEvent .field-container {
+	width: 100%;
+	margin: 0px auto;
+	background-color: $white;
+}
+
+#addEvent {
+	position: fixed;
+	margin: 0px auto;
+	z-index: 100;
+	width: 80%;
+	max-width: 1000px;
+	height: 560px;
+}
+
+#addEvent .main-content {
+	position: relative;
+}
+
+@media(max-width:767px) {
+	#addEvent .content-left {
+		border-right: 0px none;
+	}	
+}
+
+@media(min-width:768px) {
+	#addEvent .content-left {
+		border-right: 0px none;
+	}
+}
+
+@media(min-width:992px) {
+	#addEvent .content-left {
+		border-right: 1px solid $grey-300;
+	}
+}
+
+@media(min-width:1200px) {
+	#addEvent .content-left {
+		border-right: 1px solid $grey-300;
+	}
+}

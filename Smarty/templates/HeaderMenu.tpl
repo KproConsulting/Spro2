@@ -132,24 +132,12 @@
 			{/php}
 			</a></li>
 			{foreach key=maintabs item=detail from=$HEADERS}
-
-				{* kpro@tom150620181140 migrazione vte18.05 *}
-				{* kpro@tom09012017 *}
-				{if $maintabs ne 'Analytics' && $maintabs ne 'Tools' && $maintabs ne 'Inventory' }
-				{* kpro@tom09012017 end *}
-				{* kpro@tom150620181140 migrazione vte18.05 end *}
 				
-					{if $maintabs ne $CATEGORY}
-						<li class="dropdown" onmouseover="fnDropDown(this,'{$maintabs}_sub');" onmouseout="fnHideDrop('{$maintabs}_sub');"><a href="index.php?module={$detail[0]}&amp;action=index&amp;parenttab={$maintabs}">{$APP[$maintabs]} <b class="caret"></b></a></li>
-					{else}
-						<li class="dropdown active" onmouseover="fnDropDown(this,'{$maintabs}_sub');" onmouseout="fnHideDrop('{$maintabs}_sub');"><a href="index.php?module={$detail[0]}&amp;action=index&amp;parenttab={$maintabs}">{$APP[$maintabs]} <b class="caret"></b></a></li>
-					{/if}
-
-				{* kpro@tom150620181140 migrazione vte18.05 *}
-				{* kpro@tom09012017 *}
+				{if $maintabs ne $CATEGORY}
+					<li class="dropdown" onmouseover="fnDropDown(this,'{$maintabs}_sub');" onmouseout="fnHideDrop('{$maintabs}_sub');"><a href="index.php?module={$detail[0]}&amp;action=index&amp;parenttab={$maintabs}">{$APP[$maintabs]} <b class="caret"></b></a></li>
+				{else}
+					<li class="dropdown active" onmouseover="fnDropDown(this,'{$maintabs}_sub');" onmouseout="fnHideDrop('{$maintabs}_sub');"><a href="index.php?module={$detail[0]}&amp;action=index&amp;parenttab={$maintabs}">{$APP[$maintabs]} <b class="caret"></b></a></li>
 				{/if}
-				{* kpro@tom09012017 end *}
-				{* kpro@tom150620181140 migrazione vte18.05 end *}
 
 			{/foreach}
 

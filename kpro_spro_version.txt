@@ -83,3 +83,4 @@ S-PRO 1.0
 
 S-PRO 2.0
 - 15/06/2018 kpro@tom150620181140 migrazione vte18.05
+- 20/06/2018 kpro@bid200620181800 migrazione vte18.05

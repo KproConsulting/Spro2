@@ -16772,6 +16772,36 @@ icon-primary {
 	background-color: #FFF !important;
 }
 
+.vteicon,
+i.icon-module[data-first-letter].icon-accounts:after,
+i.icon-module[data-first-letter].icon-assets:after,
+i.icon-module[data-first-letter].icon-calendar:after,
+i.icon-module[data-first-letter].icon-contacts:after,
+i.icon-module[data-first-letter].icon-ddt:after,
+i.icon-module[data-first-letter].icon-invoice:after,
+i.icon-module[data-first-letter].icon-leads:after,
+i.icon-module[data-first-letter].icon-helpdesk:after,
+i.icon-module[data-first-letter].icon-timecards:after,
+i.icon-module[data-first-letter].icon-services:after,
+i.icon-module[data-first-letter].icon-processes:after,
+i.icon-module[data-first-letter].icon-pricebooks:after,
+i.icon-module[data-first-letter].icon-products:after,
+i.icon-module[data-first-letter].icon-projectmilestone:after,
+i.icon-module[data-first-letter].icon-vendors:after,
+i.icon-module[data-first-letter].icon-newsletters:after,
+i.icon-module[data-first-letter].icon-targets:after,
+i.icon-module[data-first-letter].icon-potentials:after,
+i.icon-module[data-first-letter].icon-projecttask:after,
+i.icon-module[data-first-letter].icon-projectplan:after,
+i.icon-module[data-first-letter].icon-newsletter:after,
+.vteicon2,
+i.icon-module[data-first-letter].icon-campaigns,
+i.icon-module[data-first-letter].icon-charts,
+i.icon-module[data-first-letter].icon-quotes,
+i.icon-module[data-first-letter].icon-myfiles {
+	color: #2b577c !important;
+}
+
 img[alt="Gantt"],
 img[alt="Gantt Generale"],
 img[alt="Mpro"],

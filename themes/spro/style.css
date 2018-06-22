@@ -16202,9 +16202,9 @@ a.drop_down_hover {
     color: #fff !important;
 }
 
-a,
-a:hover,
-a:focus {
+a:not(.simpleSave):not(.simpleCancel),
+a:not(.simpleSave):not(.simpleCancel):hover,
+a:not(.simpleSave):not(.simpleCancel):focus {
     color: #2b577c !important;
 }
 

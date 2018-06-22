@@ -478,3 +478,196 @@ SDK::setLanguageEntries('', 'SINGLE_HelpDesk', array('it_it' => 'Richiesta Inter
 SDK::setLanguageEntries('', 'HelpDesk', array('it_it' => 'Richieste Intervento' ,'en_us' => 'Richieste Intervento'));
 SDK::setLanguageEntries('', 'Nome Rischio', array('it_it' => 'Nome Pericolo' ,'en_us' => 'Nome Pericolo'));
 */
+
+/*
+require_once('include/utils/VtlibUtils.php');
+
+$translations[$module]['it_it'] = array(
+    'LBL_GDPR_INFORMATION' => 'Informazioni GDPR',
+    'LBL_GDPR_PRIVACYPOLICY' => 'Visione Informativa',
+    'LBL_GDPR_PRIVACYPOLICY_CHECKEDTIME' => 'Data Visione Informativa',
+    'LBL_GDPR_PRIVACYPOLICY_REMOTE_ADDRESS' => 'Indirizzo IP Visione Informativa',
+    'LBL_GDPR_PERSONAL_DATA' => 'Consenso Dati Personali',
+    'LBL_GDPR_PERSONAL_DATA_CHECKEDTIME' => 'Data Consenso Dati Personali',
+    'LBL_GDPR_PERSONAL_DATA_REMOTE_ADDRESS' => 'Indirizzo IP Dati Personali',
+    'LBL_GDPR_MARKETING' => 'Consenso Marketing',
+    'LBL_GDPR_MARKETING_CHECKEDTIME' => 'Data Consenso Marketing',
+    'LBL_GDPR_MARKETING_REMOTE_ADDRESS' => 'Indirizzo IP Consenso Marketing',
+    'LBL_GDPR_THIRDPARTIES' => 'Consenso Terze Parti',
+    'LBL_GDPR_THIRDPARTIES_CHECKEDTIME' => 'Data Consenso Terze Parti',
+    'LBL_GDPR_THIRDPARTIES_REMOTE_ADDRESS' => 'Indirizzo IP Consenso Terze Parti',
+    'LBL_GDPR_PROFILING' => 'Consenso Profilazione',
+    'LBL_GDPR_PROFILING_CHECKEDTIME' => 'Data Consenso Profilazione',
+    'LBL_GDPR_PROFILING_REMOTE_ADDRESS' => 'Indirizzo IP Consenso Profilazione',
+    'LBL_GDPR_RESTRICTED' => 'Consenso Comunicazione Dati Ambiti Informativa',
+    'LBL_GDPR_RESTRICTED_CHECKEDTIME' => 'Data Consenso Comunicazione Dati Ambiti Informativa',
+    'LBL_GDPR_RESTRICTED_REMOTE_ADDRESS' => 'Indirizzo IP Consenso Comunicazione Dati Ambiti Informativa',
+    'LBL_GDPR_NOTIFYCHANGE' => 'Avvisa Cambio Dati',
+    'LBL_GDPR_NOTIFYCHANGE_CHECKEDTIME' => 'Data Consenso Avvisa Cambio Dati',
+    'LBL_GDPR_NOTIFYCHANGE_REMOTE_ADDRESS' => 'Indirizzo IP Avvisa Cambio Dati',
+    'LBL_GDPR_DELETED' => 'Eliminato',
+    'LBL_GDPR_DELETED_CHECKEDTIME' => 'Data Eliminazione',
+    'LBL_GDPR_DELETED_REMOTE_ADDRESS' => 'Indirizzo IP Eliminazione',
+    'LBL_GDPR_SENTTIME' => 'Data Invio GDPR',
+);
+
+$translations[$module]['en_us'] = array(
+    'LBL_GDPR_INFORMATION' => 'GDPR Information',
+    'LBL_GDPR_PRIVACYPOLICY' => 'Privacy Policy',
+    'LBL_GDPR_PRIVACYPOLICY_CHECKEDTIME' => 'Privacy Policy - Date',
+    'LBL_GDPR_PRIVACYPOLICY_REMOTE_ADDRESS' => 'Privacy Policy - IP Address',
+    'LBL_GDPR_PERSONAL_DATA' => 'Consent to Personal Data',
+    'LBL_GDPR_PERSONAL_DATA_CHECKEDTIME' => 'Consent to Personal Data - Date',
+    'LBL_GDPR_PERSONAL_DATA_REMOTE_ADDRESS' => 'Consent to Personal Data - IP Address',
+    'LBL_GDPR_MARKETING' => 'Consent to Marketing',
+    'LBL_GDPR_MARKETING_CHECKEDTIME' => 'Consent to Marketing - Date',
+    'LBL_GDPR_MARKETING_REMOTE_ADDRESS' => 'Consent to Marketing - IP Address',
+    'LBL_GDPR_THIRDPARTIES' => 'Consent to Third Parties',
+    'LBL_GDPR_THIRDPARTIES_CHECKEDTIME' => 'Consent to Third Parties - Date',
+    'LBL_GDPR_THIRDPARTIES_REMOTE_ADDRESS' => 'Consent to Third Parties - IP Address',
+    'LBL_GDPR_PROFILING' => 'Consent to Profiling',
+    'LBL_GDPR_PROFILING_CHECKEDTIME' => 'Consent to Profiling - Date',
+    'LBL_GDPR_PROFILING_REMOTE_ADDRESS' => 'Consent to Profiling - IP Address',
+    'LBL_GDPR_RESTRICTED' => 'Consent only to specified institutions',
+    'LBL_GDPR_RESTRICTED_CHECKEDTIME' => 'Consent only to specified institutions - Date',
+    'LBL_GDPR_RESTRICTED_REMOTE_ADDRESS' => 'Consent only to specified institutions - IP Address',
+    'LBL_GDPR_NOTIFYCHANGE' => 'Notify contact changes',
+    'LBL_GDPR_NOTIFYCHANGE_CHECKEDTIME' => 'Notify contact changes - Date',
+    'LBL_GDPR_NOTIFYCHANGE_REMOTE_ADDRESS' => 'Notify contact changes - IP Address',
+    'LBL_GDPR_DELETED' => 'Deleted',
+    'LBL_GDPR_DELETED_CHECKEDTIME' => 'Deleted - Date',
+    'LBL_GDPR_DELETED_REMOTE_ADDRESS' => 'Deleted - IP Address',
+    'LBL_GDPR_SENTTIME' => 'GDPR Sent Date',
+);
+
+$translations['Newsletter'] = array(
+    'it_it' => array(
+        'LBL_GDPR_AND_PRICAY_POLICY' => 'GDPR e informativa privacy',
+        'LBL_GDPR_VERIFY_LINK' => 'GDPR Accesso - Link di verifica',
+        'LBL_GDPR_ACCESS_LINK' => 'GDPR Accesso - Link di accesso',
+        'LBL_GDPR_CONFIRM_LINK' => 'GDPR Aggiornamento - Link di conferma',
+        'LBL_GDPR_SUPPORT_REQUEST_SENDER' => 'GDPR Richiesta supporto - Mittente',
+        'LBL_GDPR_SUPPORT_REQUEST_SUBJECT' => 'GDPR Richiesta supporto - Oggetto',
+        'LBL_GDPR_SUPPORT_REQUEST_DESC' => 'GDPR Richiesta supporto - Descrizione',
+    ),
+    'en_us' => array(
+        'LBL_GDPR_AND_PRICAY_POLICY' => 'GDPR and privacy policy',
+        'LBL_GDPR_VERIFY_LINK' => 'GDPR Access - Verify link',
+        'LBL_GDPR_ACCESS_LINK' => 'GDPR Access - Access link',
+        'LBL_GDPR_CONFIRM_LINK' => 'GDPR Update - Confirm link',
+        'LBL_GDPR_SUPPORT_REQUEST_SENDER' => 'GDPR Support Request - Sender',
+        'LBL_GDPR_SUPPORT_REQUEST_SUBJECT' => 'GDPR Support Request - Subject',
+        'LBL_GDPR_SUPPORT_REQUEST_DESC' => 'GDPR Support Request - Description',
+    ),
+);
+
+$translations['APP_STRINGS'] = array(
+    'it_it' => array(
+        'LBL_GDPR_ANONYMIZE' => 'Anonimizza',
+    ),
+    'en_us' => array(
+        'LBL_GDPR_ANONYMIZE' => 'Anonymize',				
+    ),
+);
+
+$translations['Settings'] = array(
+    'it_it' => array(
+        'GDPR' => 'GDPR',
+        'LBL_GDPR' => 'GDPR',
+        'LBL_GDPR_DESCRIPTION' => 'Configura le impostazioni del GDPR',
+        'LBL_WEBSERVICE' => 'Webservice',
+        'LBL_WEBSERVICE_ENDPOINT' => 'Webservice endpoint',
+        'LBL_WEBSERVICE_USERNAME' => 'Webservice username',
+        'LBL_WEBSERVICE_ACCESSKEY' => 'Webservice accesskey',
+        'LBL_DEFAULT_LANGUAGE' => 'Lingua di default',
+        'LBL_WEBSITE_LOGO' => 'Logo di default',
+        'LBL_SENDER_NAME' => 'Nome mittente',
+        'LBL_SENDER_EMAIL' => 'Email mittente',
+        'LBL_TEMPLATES' => 'Template',
+        'LBL_PRIVACY_POLICY' => 'Informativa Privacy',
+        'LBL_WEBSERVICE_ENDPOINT_DESC' => 'L\'URL dove &egrave; installato il CRM',
+        'LBL_WEBSERVICE_USERNAME_DESC' => 'Utente utilizzato per le chiamate Webservice',
+        'LBL_WEBSERVICE_ACCESSKEY_DESC' => 'Accesskey dell\'utente utilizzato per le chiamate Webservice',
+        'LBL_WEBSITE_LOGO_DESC' => 'Il logo di default utilizzato nell\'app',
+        'LBL_SENDER_NAME_DESC' => 'Il nome del mittente utilizzato per le comunicazioni GDPR',
+        'LBL_SENDER_EMAIL_DESC' => 'L\'email del mittente utilizzata per le comunicazioni GDPR',
+        'LBL_ENGLISH_LANG' => 'EN English',
+        'LBL_ITALIAN_LANG' => 'IT Italiano',
+        'LBL_DEFAULT_LANGUAGE_DESC' => 'La lingua di default utilizzata nell\'app',
+        'LBL_SUPPORT_REQUEST_TEMPLATE' => 'Template richiesta supporto',
+        'LBL_SUPPORT_REQUEST_TEMPLATE_DESC' => 'Template utilizzato per le richieste di supporto',
+        'LBL_ACCESS_TEMPLATE' => 'Template accesso',
+        'LBL_ACCESS_TEMPLATE_DESC' => 'Template utilizzato per l\'invio dell\'accesso al contatto',
+        'LBL_CONFIRM_UPDATE_TEMPLATE' => 'Template di richiesta conferma',
+        'LBL_CONFIRM_UPDATE_TEMPLATE_DESC' => 'Template utilizzato per la conferma dell\'aggiornamento del contatto',
+        'LBL_CONTACT_UPDATED_TEMPLATE' => 'Template modifiche contatto',
+        'LBL_CONTACT_UPDATED_TEMPLATE_DESC' => 'Template utilizzato per inviare le notifiche di cambio dati al contatto',
+        'LBL_GDPR_VERIFY_LINK' => 'GDPR Accesso - Link di verifica',
+        'LBL_GDPR_ACCESS_LINK' => 'GDPR Accesso - Link di accesso',
+        'LBL_GDPR_CONFIRM_LINK' => 'GDPR Aggiornamento - Link di conferma',
+        'LBL_GDPR_SUPPORT_REQUEST_SENDER' => 'GDPR Richiesta supporto - Mittente',
+        'LBL_GDPR_SUPPORT_REQUEST_SUBJECT' => 'GDPR Richiesta supporto - Oggetto',
+        'LBL_GDPR_SUPPORT_REQUEST_DESC' => 'GDPR Richiesta supporto - Descrizione',
+        'CompanyDetails' => 'Dettagli societa`',
+        'LBL_ANONYMOUS' => 'Anonymous',
+        'LBL_GDPR_NOTIFY_ANONYMIZE_SUBJECT'=>'Anonimizzazione contatto',
+        'LBL_GDPR_NOTIFY_ANONYMIZE_BODY'=>'E\' stata effettuata l\'anonimizzazione di %s, %s, %s.<br>Entro il %s devi assicurarti che vengano eliminati i suoi dati anche da eventuali supporti cartacei o esterni.<br>Ricordati di cancellare anche questa email!',
+        'LBL_NOCONFIRM_DELETION_MOTHS' => 'Mesi attesa conferma',
+        'LBL_NOCONFIRM_DELETION_MOTHS_DESC' => 'Il numero di mesi dopo il quale il contatto verra` anonimizzato',
+    ),
+    'en_us' => array(
+        'GDPR' => 'GDPR',
+        'LBL_GDPR' => 'GDPR',
+        'LBL_GDPR_DESCRIPTION' => 'Configure the GDPR settings',
+        'LBL_WEBSERVICE' => 'Webservice',
+        'LBL_WEBSERVICE_ENDPOINT' => 'Webservice endpoint',
+        'LBL_WEBSERVICE_USERNAME' => 'Webservice username',
+        'LBL_WEBSERVICE_ACCESSKEY' => 'Webservice access key',
+        'LBL_DEFAULT_LANGUAGE' => 'Default language',
+        'LBL_WEBSITE_LOGO' => 'Default logo',
+        'LBL_SENDER_NAME' => 'Sender name',
+        'LBL_SENDER_EMAIL' => 'Sender email',
+        'LBL_TEMPLATES' => 'Template',
+        'LBL_PRIVACY_POLICY' => 'Privacy Policy',
+        'LBL_WEBSERVICE_ENDPOINT_DESC' => 'The URL where CRM is installed',
+        'LBL_WEBSERVICE_USERNAME_DESC' => 'User employed for the Webservice calls',
+        'LBL_WEBSERVICE_ACCESSKEY_DESC' => 'User Access key used for the Webservice calls',
+        'LBL_WEBSITE_LOGO_DESC' => 'The default logo used in the app',
+        'LBL_SENDER_NAME_DESC' => 'The sender name used for GDPR communication',
+        'LBL_SENDER_EMAIL_DESC' => 'The sender email used for GDPR communication',
+        'LBL_ENGLISH_LANG' => 'EN English',
+        'LBL_ITALIAN_LANG' => 'IT Italiano',
+        'LBL_DEFAULT_LANGUAGE_DESC' => 'The default language used in the app',
+        'LBL_SUPPORT_REQUEST_TEMPLATE' => 'Support request Template',
+        'LBL_SUPPORT_REQUEST_TEMPLATE_DESC' => 'Template used for support request',
+        'LBL_ACCESS_TEMPLATE' => 'Access Template',
+        'LBL_ACCESS_TEMPLATE_DESC' => 'Template used for sending the access details to the contact',
+        'LBL_CONFIRM_UPDATE_TEMPLATE' => 'Confirm update template',
+        'LBL_CONFIRM_UPDATE_TEMPLATE_DESC' => 'Template used for confirming the contact update',
+        'LBL_CONTACT_UPDATED_TEMPLATE' => 'Contact updated template',
+        'LBL_CONTACT_UPDATED_TEMPLATE_DESC' => 'Template used for sending update notifications to the contact',
+        'LBL_GDPR_VERIFY_LINK' => 'GDPR Access - Verify link',
+        'LBL_GDPR_ACCESS_LINK' => 'GDPR Access - Access link',
+        'LBL_GDPR_CONFIRM_LINK' => 'GDPR Update - Confirm link',
+        'LBL_GDPR_SUPPORT_REQUEST_SENDER' => 'GDPR Support Request - Sender',
+        'LBL_GDPR_SUPPORT_REQUEST_SUBJECT' => 'GDPR Support Request - Subject',
+        'LBL_GDPR_SUPPORT_REQUEST_DESC' => 'GDPR Support Request - Description',
+        'CompanyDetails' => 'Company details',
+        'LBL_ANONYMOUS' => 'Anonymous',
+        'LBL_GDPR_NOTIFY_ANONYMIZE_SUBJECT'=>'Contact anonymization',
+        'LBL_GDPR_NOTIFY_ANONYMIZE_BODY'=>'Has been made the anonymization of %s, %s and %s was made.<br>Within the %s you must ensure that your data is also deleted from any paper or external media.<br>Remember to also delete this email!',
+        'LBL_NOCONFIRM_DELETION_MOTHS' => 'Number of waiting months for confirm',
+        'LBL_NOCONFIRM_DELETION_MOTHS_DESC' => 'The number of months after which the contact will be anonymised',
+    ),
+);
+
+$languages = vtlib_getToggleLanguageInfo();
+foreach ($translations as $module => $modlang) {
+    foreach ($modlang as $lang => $translist) {
+        if (array_key_exists($lang, $languages)) {
+            foreach ($translist as $label => $translabel) {
+                SDK::setLanguageEntry($module, $lang, $label, $translabel);
+            }
+        }
+    }
+}*/

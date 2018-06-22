@@ -752,6 +752,7 @@ function calcGroupTax() {
 		netTotal_value = parseUserNumber(jQuery("#netTotal").html()),
 		discountTotal_final_value = parseUserNumber(jQuery("#discountTotal_final").html()),
 		net_total_after_discount = netTotal_value - discountTotal_final_value,
+		totale_netto_con_tasse = net_total_after_discount,	/* kpro@tom150620181140 migrazione vte18.05 */
 		group_tax_total = 0.00,
 		total_percentage = 0.00;
 
@@ -759,7 +760,7 @@ function calcGroupTax() {
     //console.log("netTotal_value: "+netTotal_value);
     //console.log("discountTotal_final_value: "+discountTotal_final_value);
     //console.log("net_total_after_discount: "+net_total_after_discount);
-
+	
 	/* kpro@tom150620181140 migrazione vte18.05 */
     /* kpro@bid291120171400 */
     var id_configurazione = KpGetConfigurazioneDaBusinessUnit(jQuery("#kp_business_unit").val());
@@ -876,6 +877,34 @@ function KpDatiTasse(id_configurazione) {
 
     return res;
 }
+
+function KpDatiProdottoServizio(id) {
+
+    var post_tassa = false;
+
+    var dati_prodotto_servizio = {
+        id: id
+    }
+
+    jQuery.ajax({
+        url: 'include/kp_utils/KpDatiProdottoServizio.php',
+        dataType: 'json',
+        data: dati_prodotto_servizio,
+        async: false,
+        success: function(data) {
+            //console.log(data);
+            if (data.length > 0) {
+                post_tassa = data[0].post_tasse;
+            }
+        },
+        fail: function() {
+            console.log("Errore nel recuperare i dati del prodotto/servizio");
+        }
+    });
+
+    return post_tassa;
+}
+
 /* kpro@bid291120171400 end */
 /* kpro@tom150620181140 migrazione vte18.05 end */
 

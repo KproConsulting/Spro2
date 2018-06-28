@@ -16802,6 +16802,10 @@ i.icon-module[data-first-letter].icon-myfiles {
 	color: #2b577c !important;
 }
 
+.mailClientBg {
+    background: #f8fee8 !important;
+}
+
 img[alt="Gantt"],
 img[alt="Gantt Generale"],
 img[alt="Mpro"],

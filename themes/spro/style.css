@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
 	font-family: 'Material-Design-Icons';
 	src: url("fonts/material-design-icons/Material-Design-Icons.eot?3ocs8m");
 	src: url("fonts/material-design-icons/Material-Design-Icons.eot?#iefix3ocs8m") format("embedded-opentype"), url("fonts/material-design-icons/Material-Design-Icons.woff?3ocs8m") format("woff"), url("fonts/material-design-icons/Material-Design-Icons.ttf?3ocs8m") format("truetype"), url("fonts/material-design-icons/Material-Design-Icons.svg?3ocs8m#Material-Design-Icons") format("svg");
@@ -16765,6 +16765,36 @@ icon-primary {
     color: #2b577c !important;
 }
 
+.vteicon.checkko, 
+i.checkko.icon-module[data-first-letter].icon-accounts:after, 
+i.checkko.icon-module[data-first-letter].icon-assets:after, 
+i.checkko.icon-module[data-first-letter].icon-calendar:after, 
+i.checkko.icon-module[data-first-letter].icon-contacts:after, 
+i.checkko.icon-module[data-first-letter].icon-ddt:after, 
+i.checkko.icon-module[data-first-letter].icon-invoice:after, 
+i.checkko.icon-module[data-first-letter].icon-leads:after, 
+i.checkko.icon-module[data-first-letter].icon-helpdesk:after, 
+i.checkko.icon-module[data-first-letter].icon-timecards:after, 
+i.checkko.icon-module[data-first-letter].icon-services:after, 
+i.checkko.icon-module[data-first-letter].icon-processes:after, 
+i.checkko.icon-module[data-first-letter].icon-pricebooks:after, 
+i.checkko.icon-module[data-first-letter].icon-products:after, 
+i.checkko.icon-module[data-first-letter].icon-projectmilestone:after, 
+i.checkko.icon-module[data-first-letter].icon-vendors:after, 
+i.checkko.icon-module[data-first-letter].icon-newsletters:after, 
+i.checkko.icon-module[data-first-letter].icon-targets:after, 
+i.checkko.icon-module[data-first-letter].icon-potentials:after, 
+i.checkko.icon-module[data-first-letter].icon-projecttask:after, 
+i.checkko.icon-module[data-first-letter].icon-projectplan:after, 
+i.checkko.icon-module[data-first-letter].icon-newsletter:after, 
+.vteicon2.checkko, 
+i.checkko.icon-module[data-first-letter].icon-campaigns, 
+i.checkko.icon-module[data-first-letter].icon-charts, 
+i.checkko.icon-module[data-first-letter].icon-quotes, 
+i.checkko.icon-module[data-first-letter].icon-myfiles{
+	color: #fe0000 !important;
+}
+
 #calendar-options,
 #addEvent #header-tab,
 #addEvent #todo-options
@@ -16806,6 +16836,9 @@ i.icon-module[data-first-letter].icon-myfiles {
     background: #f8fee8 !important;
 }
 
+div.turboliftEntry1[onclick*="quotetoinvoice"],
+div.turboliftEntry1[onclick*="sotoinvoice"],
+div.turboliftEntry1[onclick*="return_module=Potentials"],
 img[alt="Gantt"],
 img[alt="Gantt Generale"],
 img[alt="Mpro"],

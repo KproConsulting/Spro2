@@ -16202,9 +16202,9 @@ a.drop_down_hover {
     color: #fff !important;
 }
 
-a:not(.simpleSave):not(.simpleCancel),
-a:not(.simpleSave):not(.simpleCancel):hover,
-a:not(.simpleSave):not(.simpleCancel):focus {
+a:not(.simpleSave):not(.simpleCancel):not(.cke_dialog_ui_button):not(.cke_dialog_tab),
+a:not(.simpleSave):not(.simpleCancel):not(.cke_dialog_ui_button):not(.cke_dialog_tab):hover,
+a:not(.simpleSave):not(.simpleCancel):not(.cke_dialog_ui_button):not(.cke_dialog_tab):focus {
     color: #2b577c !important;
 }
 

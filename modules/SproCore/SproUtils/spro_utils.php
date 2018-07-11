@@ -1045,17 +1045,12 @@ function setSituazioneFormazione($tipo_corso, $risorsa, $mansionirisorsaid, $dur
 				data_prec_scadenza = '".$validita_formazione_prec."',
 				kp_corso_scaglionat = '".$formazione_scaglionata."',
 				kp_finestra_antec = '".$finestra_antecedente."',
-				aggiornato = '1'
+				aggiornato = '1',
+				description = '".$nota_stato."'
 				WHERE situazformazid = ".$situazformazid;
 		$adb->query($upd);
 		
 		$nota_stato = addslashes($nota_stato);
-		
-		$upd_ent = "UPDATE {$table_prefix}_crmentity SET
-					description = '".$nota_stato."'
-					WHERE crmid = ".$situazformazid;
-		
-		$adb->query($upd_ent);
 		
 		pulisciRelatedPartecipazioniSituazioneFormazione($situazformazid);
 			
@@ -3671,16 +3666,12 @@ function setSituazioneDocumenti($account, $stabilimento, $tipo_documento, $data_
 				kp_validita_doc = '".$validita_documento."',
 				kp_stato_sit_doc = '".$stato_documento."',
 				kp_stato_tipo_doc_a = '".$stato_tipo_documento."',
-				kp_aggiornato = '1'
+				kp_aggiornato = '1',
+				description = '".$nota_stato."'
 				WHERE kpsituazionedocumentiid = ".$kpsituazionedocumentiid;
 		$adb->query($upd);
 		
 		$nota_stato = addslashes($nota_stato);
-		
-		$upd_ent = "UPDATE {$table_prefix}_crmentity SET
-					description = '".$nota_stato."'
-					WHERE crmid = ".$kpsituazionedocumentiid;
-		$adb->query($upd_ent);
 		
 		echo "<br>----------- AGGIORNATO record ".$kpsituazionedocumentiid."<br>";
 	}
@@ -4206,16 +4197,12 @@ function setSituazioneDocumentiFornitore($fornitore, $risorsa, $tipo_documento, 
 				kp_validita_doc = '".$validita_documento."',
 				kp_stato_sit_doc_f = '".$stato_documento."',
 				kp_stato_tipo_doc_a = '".$stato_tipo_documento."',
-				kp_aggiornato = '1'
+				kp_aggiornato = '1',
+				description = '".$nota_stato."'
 				WHERE kpsituazionedocfornitid = ".$kpsituazionedocfornitid;
 		$adb->query($upd);
 		
 		$nota_stato = addslashes($nota_stato);
-		
-		$upd_ent = "UPDATE {$table_prefix}_crmentity SET
-					description = '".$nota_stato."'
-					WHERE crmid = ".$kpsituazionedocfornitid;
-		$adb->query($upd_ent);
 		
 		echo "<br>----------- AGGIORNATO record ".$kpsituazionedocfornitid."<br>";
 	}

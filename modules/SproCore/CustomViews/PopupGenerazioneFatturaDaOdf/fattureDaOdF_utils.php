@@ -38,7 +38,7 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
                 o.kp_contatto kp_contatto,
                 o.kp_conto_corrente kp_conto_corrente,
                 o.kp_banca_cliente kp_banca_cliente,
-                ent.description description
+                o.description description
                 FROM {$table_prefix}_odf o
                 INNER JOIN {$table_prefix}_crmentity ent ON ent.crmid = o.odfid
                 WHERE ent.deleted = 0 AND o.odfid=".$odfid;
@@ -512,7 +512,7 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
                     if($adb->num_rows($res_riga_invoice)==0){
                         
                         $q_dati_servizio = "SELECT ser.unit_price,
-                                        ent.description
+                                        ser.description
                                         FROM {$table_prefix}_service ser
                                         INNER JOIN {$table_prefix}_crmentity ent ON ent.crmid = ser.serviceid
                                         WHERE ent.deleted = 0 AND ser.serviceid = ".$servizio_spese_riba;

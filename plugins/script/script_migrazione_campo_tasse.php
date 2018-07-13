@@ -1,6 +1,6 @@
 <?php 
 
-//die("Togliere il die!");
+die("Togliere il die!");
 
 include_once(__DIR__.'/../../config.inc.php'); 
 chdir($root_directory); 
@@ -203,33 +203,6 @@ function getCodicePicklistMultilinguaggio($field, $value){
     }
 
     return $code;
-}
-
-function AggiungiValoriPicklistMultilinguaggio($code, $field, $value){
-    global $adb, $table_prefix;
-
-    $q_codesystem = "SELECT id FROM tbl_s_picklist_language_seq";
-    $res_idsystem = $adb->query($q_codesystem);
-    if($adb->num_rows($res_idsystem)>0){
-        $idsystem = $adb->query_result($res_idsystem,0,'id');
-
-        $new_idsystem = $idsystem + 1;
-
-        $q_upd_seq = "UPDATE tbl_s_picklist_language_seq SET id = ".$new_idsystem;
-        $adb->query($q_upd_seq);
-        
-        $value = addslashes($value);
-
-        $insert_tabella = "INSERT INTO tbl_s_picklist_language
-                            (code_system, code, field, language, value)
-                            VALUES (".$new_idsystem.", '".$code."', '".$field."', 'en_us', '".$value."')";
-        $adb->query($insert_tabella);
-        
-        $insert_tabella_it = "INSERT INTO tbl_s_picklist_language
-                                (code_system, code, field, language, value)
-                                VALUES (".$new_idsystem.", '".$code."', '".$field."', 'it_it', '".$value."')";
-        $adb->query($insert_tabella_it);
-    }
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php 
 
-die("Togliere il die!");
+//die("Togliere il die!");
 
 include_once(__DIR__.'/../../config.inc.php'); 
 chdir($root_directory); 
@@ -22,6 +22,12 @@ if($adb->num_rows($res) > 0){
     $picklistid = $adb->query_result($res, 0, 'picklistid');
     $picklistid = html_entity_decode(strip_tags($picklistid), ENT_QUOTES, $default_charset);
     if($picklistid != "" && $picklistid != null){
+        //Modifico l'uitype del campo per renderlo una picklist multilinguaggio
+        $q = "UPDATE {$table_prefix}_field
+            SET uitype = 1015
+            WHERE fieldname = 'kp_tasse'";
+        $adb->query($q);
+
         //Copio i valori nella tabella dei valori delle picklist multilinguaggio
         $q = "SELECT * 
             FROM {$table_prefix}_kp_tasse";
@@ -60,12 +66,6 @@ if($adb->num_rows($res) > 0){
 
         $q = "DELETE FROM {$table_prefix}_role2picklist
             WHERE picklistid = ".$picklistid;
-        $adb->query($q);
-
-        //Modifico l'uitype del campo per renderlo una picklist multilinguaggio
-        $q = "UPDATE {$table_prefix}_field
-            SET uitype = 1015
-            WHERE fieldname = 'kp_tasse'";
         $adb->query($q);
     }
 }

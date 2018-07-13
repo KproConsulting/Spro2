@@ -16735,7 +16735,7 @@ icon-primary {
     background-color: #f8ffe7 !important;
 }
 
-.vteicon, 
+.vteicon:not(.checkok):not(.checkko):not(.disabled), 
 .vteicon2,
 .icon-module,
 .icon-accounts,
@@ -16802,7 +16802,7 @@ i.checkko.icon-module[data-first-letter].icon-myfiles{
 	background-color: #FFF !important;
 }
 
-.vteicon,
+.vteicon:not(.checkok):not(.checkko):not(.disabled),
 i.icon-module[data-first-letter].icon-accounts:after,
 i.icon-module[data-first-letter].icon-assets:after,
 i.icon-module[data-first-letter].icon-calendar:after,

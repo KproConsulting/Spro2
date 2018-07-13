@@ -33,9 +33,9 @@ function inizializzazioneSupersized() {
         // Components
         slide_links: 'blank', // Individual links for each slide (Options: false, 'num', 'name', 'blank')
         slides: [ // Slideshow Images
-            { image: 'themes/sicurezza/login/login_img/immagine1.jpg' },
-            { image: 'themes/sicurezza/login/login_img/immagine2.jpg' },
-            { image: 'themes/sicurezza/login/login_img/immagine3.jpg' }
+            { image: 'themes/spro/login/login_img/immagine1.jpg' },
+            { image: 'themes/spro/login/login_img/immagine2.jpg' },
+            { image: 'themes/spro/login/login_img/immagine3.jpg' }
         ]
 
     });

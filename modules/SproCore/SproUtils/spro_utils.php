@@ -1028,6 +1028,8 @@ function setSituazioneFormazione($tipo_corso, $risorsa, $mansionirisorsaid, $dur
 		
 		$situazformazid = $adb->query_result($res_verifica,0,'situazformazid');
 		$situazformazid = html_entity_decode(strip_tags($situazformazid), ENT_QUOTES,$default_charset);
+
+		$nota_stato = addslashes($nota_stato);
 		
 		$upd = "UPDATE {$table_prefix}_situazformaz SET
 				tipo_corso = ".$tipo_corso.",
@@ -1048,9 +1050,8 @@ function setSituazioneFormazione($tipo_corso, $risorsa, $mansionirisorsaid, $dur
 				aggiornato = '1',
 				description = '".$nota_stato."'
 				WHERE situazformazid = ".$situazformazid;
-		$adb->query($upd);
 		
-		$nota_stato = addslashes($nota_stato);
+		$adb->query($upd);
 		
 		pulisciRelatedPartecipazioniSituazioneFormazione($situazformazid);
 			

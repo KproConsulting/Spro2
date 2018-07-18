@@ -45,7 +45,7 @@
 						* @copyright (c) 2017, Kpro Consulting Srl
 						*/*}
 
-						<input id="btnReportVisita" class="crmbutton small save" type="button" value="Report Visita" style="display: none;"></input>
+						<input id="btnReportVisita" class="crmbutton small save" type="button" value="Report Attività" style="display: none;"></input>
 
 						{*/* kpro@tom02122016 end */*}
 

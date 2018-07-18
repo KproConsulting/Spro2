@@ -14,26 +14,22 @@ session_start();
 echo "<br>POPOLAMENTO TASSE<br>";
 
 $q = "UPDATE {$table_prefix}_account
-    SET kp_tasse = '22'
-    WHERE accountid = ".$id;
+    SET kp_tasse = '22'";
 $adb->query($q);
 
 
 $q = "UPDATE {$table_prefix}_quotes
-    SET kp_tasse = '22'
-    WHERE quoteid = ".$id;
+    SET kp_tasse = '22'";
 $adb->query($q);
 
 
 $q = "UPDATE {$table_prefix}_salesorder
-    SET kp_tasse = '22'
-    WHERE salesorderid = ".$id;
+    SET kp_tasse = '22'";
 $adb->query($q);
 
 
 $q = "UPDATE {$table_prefix}_invoice
-    SET kp_tasse = '22'
-    WHERE invoiceid = ".$id;
+    SET kp_tasse = '22'";
 $adb->query($q);
 
 ?>

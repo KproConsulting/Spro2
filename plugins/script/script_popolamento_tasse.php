@@ -13,12 +13,6 @@ session_start();
 
 echo "<br>POPOLAMENTO TASSE<br>";
 
-KpSDK::aggiungiAPickingListMultilinguaggio($nome_campo = "kp_tasse", $codice = '22', $valore = 'ALIQUOTA IVA 22%');
-
-KpSDK::aggiungiAPickingListMultilinguaggio($nome_campo = "kp_tasse", $codice = 'E1', $valore = 'ESENTE ART.15 DPR 633/72');
-
-KpSDK::aggiungiAPickingListMultilinguaggio($nome_campo = "kp_tasse", $codice = 'E2', $valore = 'NON IMP.ART.8 DPR 633/72');
-
 $q = "UPDATE {$table_prefix}_account
     SET kp_tasse = '22'
     WHERE accountid = ".$id;

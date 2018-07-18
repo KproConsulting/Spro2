@@ -1,0 +1,37 @@
+<?php
+
+/* kpro@tom04072017 */
+
+/**
+ * @author Tomiello Marco
+ * @copyright (c) 2016, Kpro Consulting Srl
+ */
+ 
+require_once(__DIR__.'/KproConfig.ini.php');
+
+require_once(__DIR__.'/Firma_utils.php');
+
+include_once(__DIR__.'/../../../../config.inc.php');
+chdir($root_directory);
+require_once('include/utils/utils.php');
+include_once('vtlib/Vtiger/Module.php');
+$Vtiger_Utils_Log = true;
+global $adb, $table_prefix, $current_user, $site_URL, $default_charset;
+session_start();
+
+$rows = array();
+
+if(isset($_GET['record'])){
+	$record = htmlspecialchars(addslashes(html_entity_decode(strip_tags($_GET['record']), ENT_QUOTES,$default_charset)), ENT_QUOTES, $default_charset);
+	$record = substr($record, 0, 100);
+	
+	cancellaPdfTemplateTemporaneo($record);
+
+	$rows[] = array('result' => 'ok');
+
+}
+
+$json = json_encode($rows);
+print $json;
+
+?>

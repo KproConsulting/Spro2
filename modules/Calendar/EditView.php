@@ -237,6 +237,41 @@ if (isset($_REQUEST['from_module'])){
 
 	if( $_REQUEST['from_module'] == "HelpDesk"){
 		$focus->column_fields["activitytype"] = "Intervento";
+
+		if(isset($_REQUEST['from_crmid'])){
+			$id_ticket = $_REQUEST['from_crmid'];
+
+			$focus_ticket = CRMEntity::getInstance('HelpDesk');
+			$focus_ticket->retrieve_entity_info($id_ticket, "HelpDesk", $dieOnError=false); 
+
+			$ticket_title = $focus_ticket->column_fields["ticket_title"];
+			$ticket_title = html_entity_decode(strip_tags($ticket_title), ENT_QUOTES, $default_charset);
+
+			$description = $focus_ticket->column_fields["description"];
+			$description = html_entity_decode(strip_tags($description), ENT_QUOTES, $default_charset);
+
+			$ticket_parent_id = $focus_ticket->column_fields["parent_id"];
+			$ticket_parent_id = html_entity_decode(strip_tags($ticket_parent_id), ENT_QUOTES, $default_charset);
+
+			$titolo_evento = $ticket_title;		
+
+			if( $ticket_parent_id != "" && $ticket_parent_id != 0 ){
+				
+				$focus_account = CRMEntity::getInstance('Accounts');
+				$focus_account->retrieve_entity_info($ticket_parent_id, "Accounts", $dieOnError=false); 
+
+				$accountname = $focus_account->column_fields["accountname"];
+				$accountname = html_entity_decode(strip_tags($accountname), ENT_QUOTES, $default_charset);
+
+				$titolo_evento .= " (".$accountname.")";
+
+			}
+
+			$focus->column_fields["subject"] = $titolo_evento;
+			$focus->column_fields["description"] = $description;
+
+		}
+
 	}
 	elseif( $_REQUEST['from_module'] == "ProjectTask"){
 		$focus->column_fields["activitytype"] = "Operazione";

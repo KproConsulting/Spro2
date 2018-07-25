@@ -87,3 +87,4 @@ S-PRO 2.0
 - 11/07/2018 kpro@bid110720181745 Correzione schermata custom Consegna DPI per non mostrare mai i bottoni di modifica/cancellazione righe in consegne già confermate
 - 20/07/2018 kpro@bid200720181500 Aggiunto supporto per campo Data Inizio Pianificata nel modulo Ticket per la funzione Ticket Ripetitivo
 - 25/07/2018 kpro@bid250720181030 Correzione bug che non calcolava più split payment e ritenuta d'acconto nella generazione fatture da odf
+- 25/07/2018 kpro@bid250720181755 Correzione bug che non riportava più l'azienda nella creazione ticket da ordine di vendita

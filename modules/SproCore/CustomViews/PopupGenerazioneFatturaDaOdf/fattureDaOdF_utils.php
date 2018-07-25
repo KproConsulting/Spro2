@@ -6,6 +6,8 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
 
     require_once('modules/SproCore/SproUtils/spro_utils.php');
 
+    $debug = false;
+
     $risultato = array(
         'fatture_create' => 0,
         'righe_create' => 0
@@ -391,6 +393,15 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
         else{
             $condizioni_pagamento = '';
         }
+
+        if($debug){
+            $log_content = "
+
+CONF. TASSE: split payment ".$split_payment.", ritenuta acconto ".$ritenuta_acconto.", proforma ".$avviso_fattura;
+            $log_file = fopen(__DIR__."/log.txt", "a+");
+            fwrite($log_file, $log_content);
+            fclose($log_file);
+        }
         
         //Verifico se c'è già una fattura in stato 'AutoCreated' per cliente, business unit, commessa e modalita di pagamento
         //Se non trova alcuna fattura in stato 'AutoCreated' per quel cliente crea la testata altrimenti aggiungo solo la riga e aggiorno il totale
@@ -546,8 +557,10 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
                                 'discount_amount' => 0,
                                 'commento_riga_fattura' => '',
                                 'conf_tassazione' => $conf_tassazione,
-                                'risultato' => $risultato
-                            );
+                                'risultato' => $risultato,
+                                'ritenuta_acconto' => $ritenuta_acconto,
+                                'split_payment' => $split_payment
+                            ); /* kpro@bid250720181030 */
                 
                             $dati_fattura = AggiungiRigaFattura($dati_riga);
 
@@ -576,8 +589,10 @@ function GeneraInvoiceDaOdF($odfid, $data_fattura, $mod_pagamento=0){
                 'discount_amount' => $discount_amount,
                 'commento_riga_fattura' => $commento_riga_fattura,
                 'conf_tassazione' => $conf_tassazione,
-                'risultato' => $risultato
-            );
+                'risultato' => $risultato,
+                'ritenuta_acconto' => $ritenuta_acconto,
+                'split_payment' => $split_payment
+            ); /* kpro@bid250720181030 */
 
             $dati_fattura = AggiungiRigaFattura($dati_riga);
             
@@ -611,6 +626,8 @@ function AggiungiRigaFattura($dati_riga){
     $commento_riga_fattura = $dati_riga['commento_riga_fattura'];
     $conf_tassazione = $dati_riga['conf_tassazione'];
     $risultato = $dati_riga['risultato'];
+    $ritenuta_acconto = $dati_riga['ritenuta_acconto']; /* kpro@bid250720181030 */
+    $split_payment = $dati_riga['split_payment']; /* kpro@bid250720181030 */
 
     if($discount_percent > 0){
         $total_notaxes = $total_notaxes - ($total_notaxes * $discount_percent / 100);
@@ -623,7 +640,6 @@ function AggiungiRigaFattura($dati_riga){
     
     if($debug){
         $log_content = "
-
 SERVIZIO ".$servizio." - POST TASSE ".$post_tasse." - MOD.TASSAZIONE ".$mod_tassazione."
 POST-QUERY: subtotal = ".$subtotal.", total = ".$total.", adjustment = ".$adjustment;
         $log_file = fopen(__DIR__."/log.txt", "a+");

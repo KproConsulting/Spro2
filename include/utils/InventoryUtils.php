@@ -1144,7 +1144,8 @@ class InventoryUtils extends SDKExtendableUniqueClass {
 				'adjustment' => 0.0,
 				'taxes' => array(),
 				'shtaxes' => array(),
-		);
+				'id_configurazione' => $id_configurazione,
+		); /* kpro@tom150620181140 migrazione vte18.05 */
 		
 		$updatequery  = "update {$focus->table_name} set ";
 		$updateparams = $updatequeryList = array();

@@ -121,7 +121,12 @@
 
 	<!-- column 3 - Quantity in Stock - starts -->
 	{if $MODULE neq 'PurchaseOrder'}	<!-- crmv@18498 -->
-	   <td class="crmTableRow small lineOnTop" valign="top">
+	   	
+		<!-- kpro@tom150620181140 -->
+		<td class="crmTableRow small lineOnTop" valign="top" style="display: none;" >
+	   	<!--<td class="crmTableRow small lineOnTop" valign="top">-->
+		<!-- kpro@tom150620181140 end -->
+
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr>
 				<td>

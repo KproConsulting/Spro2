@@ -611,17 +611,20 @@ if(isset($action) && isset($module))
 		$sdk_action = $action;
 		$call_sdk = false;
 	}
-    if ($in_core && !$call_sdk) {
 
+    if ($in_core && !$call_sdk) {
+		
 		/* kpro@tom150620181140 migrazione vte18.05 */
 		/* kpro@tom140220181508 */
 
 		$module = vtlib_purify($_REQUEST['module']);
 		$return_module = vtlib_purify($_REQUEST['return_module']);
+		$return_action = vtlib_purify($_REQUEST['return_action']);	//kpro@tom080820181453
 
-		if( $sdk_action == "Delete" && $module == "TipiCorso" && $return_module == "TipiCorso" ){
+		/* kpro@tom080820181453 */
+		if( $sdk_action == "Delete" && $module == "TipiCorso" && $return_module == "TipiCorso" && $return_action == "DetailView" ){
 			$currentModuleFile = 'modules/SproCore/SproUtils/UnlinkRelationship.php';
-		}
+		} /* kpro@tom080820181453 end */
 		else{
 			$currentModuleFile = 'modules/VteCore/'.$sdk_action.'.php';
 		}

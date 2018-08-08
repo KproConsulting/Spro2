@@ -12,7 +12,7 @@ class KpSDK {
 	var $kp_updater_temp_folder = "modules/SDK/src/sdk_temp/";
 	var $kprosdk_log_folder = "modules/SproCore/SDK/Logs/";
 	var $kprosdk_log_filename = "logs.txt";
-	var $kpro_last_tabid_bedore_update = 999;
+	var $kpro_last_tabid_bedore_update = 1;
 
 	static function log($message) {
 		global $adb, $table_prefix, $default_charset;
@@ -1182,7 +1182,7 @@ class KpSDK {
 			$fieldname = $adb->query_result($result_query, 0, 'fieldname');
 			$fieldname = html_entity_decode(strip_tags($fieldname), ENT_QUOTES, $default_charset);
 
-			$result = split(",", $fieldname); ;
+			$result = explode(",", $fieldname); ;
 
 		}
 

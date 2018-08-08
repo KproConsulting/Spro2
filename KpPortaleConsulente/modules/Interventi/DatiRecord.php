@@ -318,7 +318,7 @@ function getDatiIntervento($record, $fornitore){
 
 		$worktime = $adb->query_result($result_query, 0, 'worktime');
 		$worktime = html_entity_decode(strip_tags($worktime), ENT_QUOTES, $default_charset);
-		list($duration_hours, $duration_minutes) = split(":", $worktime);
+		list($duration_hours, $duration_minutes) = explode(":", $worktime);
 
 		$duration_hours = (int)$duration_hours; 
 		$duration_hours = number_format($duration_hours, 0, '.', ',');

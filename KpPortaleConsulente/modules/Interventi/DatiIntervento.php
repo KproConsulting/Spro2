@@ -144,12 +144,12 @@ if(isset($_GET['record'])){
 
 		$worktime = $adb->query_result($result_query, 0, 'worktime');
 		$worktime = html_entity_decode(strip_tags($worktime), ENT_QUOTES, $default_charset);
-		list($ora, $minuti) = split(":", $worktime); 
+		list($ora, $minuti) = explode(":", $worktime); 
 
 		$ore_effettive = $adb->query_result($result_query, 0, 'ore_effettive');
 		$ore_effettive = html_entity_decode(strip_tags($ore_effettive), ENT_QUOTES, $default_charset);
 		if($ore_effettive != "" && $ore_effettive != null){
-			list($ora_eff, $minuti_eff) = split(":", $ore_effettive); 
+			list($ora_eff, $minuti_eff) = explode(":", $ore_effettive); 
 		}
 		else{
 			$ora_eff = 0;

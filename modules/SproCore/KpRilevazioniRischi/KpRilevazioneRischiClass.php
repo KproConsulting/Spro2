@@ -352,11 +352,31 @@ class KpRilevazioneRischiClass {
             $focus_riga->retrieve_entity_info($riga["id"], "KpRilevazRischiRig", $dieOnError=false); 
             
             $magnitudo = $focus_riga->column_fields["kp_gravita_rischio"];
+            $magnitudo = html_entity_decode(strip_tags($magnitudo), ENT_QUOTES, $default_charset);
+
             $probabilita = $focus_riga->column_fields["kp_probabilita_risc"];
+            $probabilita = html_entity_decode(strip_tags($probabilita), ENT_QUOTES, $default_charset);
+
             $rischio = $focus_riga->column_fields["kp_valutazione_risc"];
+            $rischio = html_entity_decode(strip_tags($rischio), ENT_QUOTES, $default_charset);
+
             $frase_di_rischio = $focus_riga->column_fields["kp_frase_risc_dvr"];
+            $frase_di_rischio = html_entity_decode(strip_tags($frase_di_rischio), ENT_QUOTES, $default_charset);
+            if( $frase_di_rischio == null ){
+                $frase_di_rischio = "";
+            }
+
             $misurazione = $focus_riga->column_fields["kp_misurazione"];
+            $misurazione = html_entity_decode(strip_tags($misurazione), ENT_QUOTES, $default_charset);
+
             $attivo = $focus_riga->column_fields["kp_attivo"];
+            $attivo = html_entity_decode(strip_tags($attivo), ENT_QUOTES, $default_charset);
+
+            $descrizione = $focus_riga->column_fields["description"];
+            $descrizione = html_entity_decode(strip_tags($descrizione), ENT_QUOTES, $default_charset);
+            if( $descrizione == null ){
+                $descrizione = "";
+            }
 
             if( $attivo == '1' ){
                 $check = true;
@@ -377,6 +397,7 @@ class KpRilevazioneRischiClass {
             $check = false;
             $id_riga_ril = 0;
             $misurazione = 0;
+			$descrizione = "";
 
         }
 
@@ -408,6 +429,7 @@ class KpRilevazioneRischiClass {
                         "nome_misurazione" => $nome_misurazione,
                         "help_probabilita" => $help_probabilita,
                         "help_magnitudo" => $help_magnitudo,
+						"descrizione" => $descrizione,
                         "lista_ruoli" => $lista_ruoli);
 
         return $result;
@@ -454,6 +476,7 @@ class KpRilevazioneRischiClass {
             $focus->column_fields['kp_frase_risc_dvr'] = $frase_di_rischio;
             $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
             $focus->column_fields['kp_misurazione'] = $dati["misurazione"];
+			$focus->column_fields['description'] = $dati["descrizione"];
             $focus->mode = 'edit';
             $focus->id = $riga["id"];
             $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false);
@@ -474,6 +497,7 @@ class KpRilevazioneRischiClass {
             $focus->column_fields['kp_frase_risc_dvr'] = $frase_di_rischio;
             $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
             $focus->column_fields['kp_misurazione'] = $dati["misurazione"];
+			$focus->column_fields['description'] = $dati["descrizione"];
             $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
 
             $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
@@ -569,19 +593,16 @@ class KpRilevazioneRischiClass {
 
         switch ($magnitudo) {
             case 1:
-                $result = "1 - Trascurabile";
+                $result = "1 - Lieve";
                 break;
             case 2:
-                $result = "2 - Contenuto";
+                $result = "2 - Medio";
                 break;
             case 3:
-                $result = "3 - Significativo";
+                $result = "3 - Alto";
                 break;
             case 4:
-                $result = "4 - Rilevante";
-                break;
-            case 5:
-                $result = "5 - Catastrofico";
+                $result = "4 - Molto alto";
                 break;
             default:
                 $result = "";
@@ -601,16 +622,13 @@ class KpRilevazioneRischiClass {
                 $result = "1 - Improbabile";
                 break;
             case 2:
-                $result = "2 - Raro";
+                $result = "2 - Poco Probabile";
                 break;
             case 3:
-                $result = "3 - Possibile";
+                $result = "3 - Probabile";
                 break;
             case 4:
-                $result = "4 - Probabile";
-                break;
-            case 5:
-                $result = "5 - Molto Probabile";
+                $result = "4 - Altamente Probabile";
                 break;
             default:
                 $result = "";
@@ -625,20 +643,20 @@ class KpRilevazioneRischiClass {
 
         $result = "";
 
-        if( $rischio >= 1 && $rischio <= 5){
-            $result = "Irrilevante";
+        if( $rischio >= 1 && $rischio <= 2){
+            $result = "Minimo";
         }
-        elseif($rischio > 5 && $rischio <= 10){
-            $result = "Minore";
+        elseif($rischio > 2 && $rischio <= 4){
+            $result = "Modesto";
         }
-        elseif($rischio > 10 && $rischio <= 15){
-            $result = "Moderato";
+        elseif($rischio > 4 && $rischio <= 8){
+            $result = "Rilevante";
         }
-        elseif($rischio > 15 && $rischio <= 20){
-            $result = "Significativo";
+        elseif($rischio > 8 && $rischio <= 12){
+            $result = "Grave";
         }
-        elseif($rischio > 20 && $rischio <= 25){
-            $result = "Estremo";
+        elseif($rischio > 12){
+            $result = "Molto grave";
         }
 
         return $result;
@@ -667,6 +685,7 @@ class KpRilevazioneRischiClass {
             $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
                         VALUES
                         (".$riga.", 'KpRilevazRischiRig', ".$ruolo.", 'KpRuoli')";
+
             $adb->query($insert);
 
         }
@@ -3047,7 +3066,7 @@ class KpRilevazioneRischiClass {
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(5);
         $objPHPExcel->getActiveSheet()->getColumnDimension("G:".$column)->setWidth(10);
 
-        $objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(-1);
+        $objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(150);
 
         $objPHPExcel->getActiveSheet()
             ->getPageSetup()
@@ -3055,6 +3074,361 @@ class KpRilevazioneRischiClass {
 
         return $objPHPExcel;
     }
+
+    static function riportaRigheDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        self::riportaRigheAreaDaSituazioneRischiDVR($record);
+
+        self::riportaRigheAttivitaDaSituazioneRischiDVR($record);
+
+        self::riportaRigheImpiantiDaSituazioneRischiDVR($record);
+
+        self::riportaRigheSostanzeDaSituazioneRischiDVR($record);
+
+        self::riportaRigheMaterialiDaSituazioneRischiDVR($record);
+
+    }
+
+    static function riportaRigheAreaDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../KpSitRischiDVR/ClassKpSitRischiDVRKp.php');
+
+        $dati_rilevazione = self::getDatiRilevazione($record);
+        $pericoli_relazionati = self::getPericoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
+
+        $related_to = 0;
+
+        foreach($pericoli_relazionati as $pericolo){
+
+            $filtro_situazione = array("azienda_id" => $dati_rilevazione["azienda"],
+                                        "stabilimento_id" => $dati_rilevazione["stabilimento"],
+                                        "area_id" => $dati_rilevazione["area_stabilimento"],
+                                        "related_to" => $related_to,
+                                        "pericolo_id" => $pericolo["id"]);
+
+            $situazione_rischio = KpSitRischiDVRKp::getRigaSituazioneByFiltro($filtro_situazione);
+
+            if( $situazione_rischio["esiste"] ){
+
+                $nome_riga = $pericolo["nome"];
+
+                $focus = CRMEntity::getInstance('KpRilevazRischiRig');
+                $focus->column_fields['assigned_user_id'] = $current_user->id;
+                $focus->column_fields['kp_nome_riga'] = $nome_riga;
+                $focus->column_fields['kp_rilevazione'] = $record;
+                $focus->column_fields['kp_rischio'] = $pericolo["id"];
+                $focus->column_fields['kp_related_to'] = $related_to;
+                $focus->column_fields['kp_attivo'] = '1';
+                $focus->column_fields['kp_gravita_rischio'] = $situazione_rischio["gravita_rischio"];
+                $focus->column_fields['kp_probabilita_risc'] = $situazione_rischio["probabilita_rischio"];
+                $focus->column_fields['kp_valutazione_risc'] = $situazione_rischio["valutazione_rischio"];
+                $focus->column_fields['kp_frase_risc_dvr'] = $situazione_rischio["frase_di_rischio"];
+                $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
+                $focus->column_fields['kp_misurazione'] = $situazione_rischio["misurazione"];
+                $focus->column_fields['description'] = $situazione_rischio["descrizione"];
+                $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
+
+                $lista_ruoli = KpSitRischiDVRKp::getRuoliRelazionatiRigaSituazione( $situazione_rischio["id"] );
+                
+                foreach( $lista_ruoli as $ruolo ){
+
+                    if( self::checkIfRuoloRelazionatoArea($dati_rilevazione["area_stabilimento"], $ruolo["id"]) ){
+
+                        $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
+                                    VALUES
+                                    (".$focus->id.", 'KpRilevazRischiRig', ".$ruolo["id"].", 'KpRuoli')";
+                        $adb->query($insert);
+
+                        self::setRuoloRigaRilevazioneRischio($focus->id, $ruolo["id"]);
+
+                    }
+                    
+                }
+
+            }
+
+        }
+
+    }
+
+    static function riportaRigheAttivitaDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../KpSitRischiDVR/ClassKpSitRischiDVRKp.php');
+
+        $dati_rilevazione = self::getDatiRilevazione($record);
+        $attivita_relazionate = self::getAttivitaRelazionateArea( $dati_rilevazione["area_stabilimento"] );
+
+        foreach($attivita_relazionate as $attivita){
+
+            foreach($attivita["lista_pericoli"] as $pericolo){
+
+                $filtro_situazione = array("azienda_id" => $dati_rilevazione["azienda"],
+                                        "stabilimento_id" => $dati_rilevazione["stabilimento"],
+                                        "area_id" => $dati_rilevazione["area_stabilimento"],
+                                        "related_to" => $attivita["id"],
+                                        "pericolo_id" => $pericolo["id"]);
+
+                $situazione_rischio = KpSitRischiDVRKp::getRigaSituazioneByFiltro($filtro_situazione);
+
+                if( $situazione_rischio["esiste"] ){
+
+                    $nome_riga = $pericolo["nome"];
+
+                    $focus = CRMEntity::getInstance('KpRilevazRischiRig');
+                    $focus->column_fields['assigned_user_id'] = $current_user->id;
+                    $focus->column_fields['kp_nome_riga'] = $nome_riga;
+                    $focus->column_fields['kp_rilevazione'] = $record;
+                    $focus->column_fields['kp_rischio'] = $pericolo["id"];
+                    $focus->column_fields['kp_related_to'] = $attivita["id"];
+                    $focus->column_fields['kp_attivo'] = '1';
+                    $focus->column_fields['kp_gravita_rischio'] = $situazione_rischio["gravita_rischio"];
+                    $focus->column_fields['kp_probabilita_risc'] = $situazione_rischio["probabilita_rischio"];
+                    $focus->column_fields['kp_valutazione_risc'] = $situazione_rischio["valutazione_rischio"];
+                    $focus->column_fields['kp_frase_risc_dvr'] = $situazione_rischio["frase_di_rischio"];
+                    $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
+                    $focus->column_fields['kp_misurazione'] = $situazione_rischio["misurazione"];
+                    $focus->column_fields['description'] = $situazione_rischio["descrizione"];
+                    $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
+
+                    $lista_ruoli = KpSitRischiDVRKp::getRuoliRelazionatiRigaSituazione( $situazione_rischio["id"] );
+                    
+                    foreach( $lista_ruoli as $ruolo ){
+
+                        if( self::checkIfRuoloRelazionatoArea($dati_rilevazione["area_stabilimento"], $ruolo["id"]) ){
+
+                            $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
+                                        VALUES
+                                        (".$focus->id.", 'KpRilevazRischiRig', ".$ruolo["id"].", 'KpRuoli')";
+                            $adb->query($insert);
+    
+                        }
+                        
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    static function riportaRigheImpiantiDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../KpSitRischiDVR/ClassKpSitRischiDVRKp.php');
+
+        $dati_rilevazione = self::getDatiRilevazione($record);
+        $tipi_impianti_relazionati = self::getTipiImpiantiRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
+
+        foreach($tipi_impianti_relazionati as $tipo_impianto){
+
+            foreach($tipo_impianto["lista_pericoli"] as $pericolo){
+
+                $filtro_situazione = array("azienda_id" => $dati_rilevazione["azienda"],
+                                        "stabilimento_id" => $dati_rilevazione["stabilimento"],
+                                        "area_id" => $dati_rilevazione["area_stabilimento"],
+                                        "related_to" => $tipo_impianto["id"],
+                                        "pericolo_id" => $pericolo["id"]);
+
+                $situazione_rischio = KpSitRischiDVRKp::getRigaSituazioneByFiltro($filtro_situazione);
+
+                if( $situazione_rischio["esiste"] ){
+
+                    $nome_riga = $pericolo["nome"];
+
+                    $focus = CRMEntity::getInstance('KpRilevazRischiRig');
+                    $focus->column_fields['assigned_user_id'] = $current_user->id;
+                    $focus->column_fields['kp_nome_riga'] = $nome_riga;
+                    $focus->column_fields['kp_rilevazione'] = $record;
+                    $focus->column_fields['kp_rischio'] = $pericolo["id"];
+                    $focus->column_fields['kp_related_to'] = $tipo_impianto["id"];
+                    $focus->column_fields['kp_attivo'] = '1';
+                    $focus->column_fields['kp_gravita_rischio'] = $situazione_rischio["gravita_rischio"];
+                    $focus->column_fields['kp_probabilita_risc'] = $situazione_rischio["probabilita_rischio"];
+                    $focus->column_fields['kp_valutazione_risc'] = $situazione_rischio["valutazione_rischio"];
+                    $focus->column_fields['kp_frase_risc_dvr'] = $situazione_rischio["frase_di_rischio"];
+                    $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
+                    $focus->column_fields['kp_misurazione'] = $situazione_rischio["misurazione"];
+                    $focus->column_fields['description'] = $situazione_rischio["descrizione"];
+                    $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
+
+                    $lista_ruoli = KpSitRischiDVRKp::getRuoliRelazionatiRigaSituazione( $situazione_rischio["id"] );
+                    
+                    foreach( $lista_ruoli as $ruolo ){
+
+                        if( self::checkIfRuoloRelazionatoArea($dati_rilevazione["area_stabilimento"], $ruolo["id"]) ){
+
+                            $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
+                                        VALUES
+                                        (".$focus->id.", 'KpRilevazRischiRig', ".$ruolo["id"].", 'KpRuoli')";
+                            $adb->query($insert);
+    
+                        }
+                        
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    static function riportaRigheSostanzeDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../KpSitRischiDVR/ClassKpSitRischiDVRKp.php');
+
+        $dati_rilevazione = self::getDatiRilevazione($record);
+        $sostanze_chiniche_relazionate = self::getSostanzeChimicheRelazionateArea( $dati_rilevazione["area_stabilimento"] );
+
+        foreach($sostanze_chiniche_relazionate as $sostanze_chimica){
+
+            foreach($sostanze_chimica["lista_pericoli"] as $pericolo){
+
+                $filtro_situazione = array("azienda_id" => $dati_rilevazione["azienda"],
+                                        "stabilimento_id" => $dati_rilevazione["stabilimento"],
+                                        "area_id" => $dati_rilevazione["area_stabilimento"],
+                                        "related_to" => $sostanze_chimica["id"],
+                                        "pericolo_id" => $pericolo["id"]);
+
+                $situazione_rischio = KpSitRischiDVRKp::getRigaSituazioneByFiltro($filtro_situazione);
+
+                if( $situazione_rischio["esiste"] ){
+
+                    $nome_riga = $pericolo["nome"];
+
+                    $focus = CRMEntity::getInstance('KpRilevazRischiRig');
+                    $focus->column_fields['assigned_user_id'] = $current_user->id;
+                    $focus->column_fields['kp_nome_riga'] = $nome_riga;
+                    $focus->column_fields['kp_rilevazione'] = $record;
+                    $focus->column_fields['kp_rischio'] = $pericolo["id"];
+                    $focus->column_fields['kp_related_to'] = $sostanze_chimica["id"];
+                    $focus->column_fields['kp_attivo'] = '1';
+                    $focus->column_fields['kp_gravita_rischio'] = $situazione_rischio["gravita_rischio"];
+                    $focus->column_fields['kp_probabilita_risc'] = $situazione_rischio["probabilita_rischio"];
+                    $focus->column_fields['kp_valutazione_risc'] = $situazione_rischio["valutazione_rischio"];
+                    $focus->column_fields['kp_frase_risc_dvr'] = $situazione_rischio["frase_di_rischio"];
+                    $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
+                    $focus->column_fields['kp_misurazione'] = $situazione_rischio["misurazione"];
+                    $focus->column_fields['description'] = $situazione_rischio["descrizione"];
+                    $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
+
+                    $lista_ruoli = KpSitRischiDVRKp::getRuoliRelazionatiRigaSituazione( $situazione_rischio["id"] );
+                    
+                    foreach( $lista_ruoli as $ruolo ){
+
+                        if( self::checkIfRuoloRelazionatoArea($dati_rilevazione["area_stabilimento"], $ruolo["id"]) ){
+
+                            $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
+                                        VALUES
+                                        (".$focus->id.", 'KpRilevazRischiRig', ".$ruolo["id"].", 'KpRuoli')";
+                            $adb->query($insert);
+    
+                        }
+                        
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    static function riportaRigheMaterialiDaSituazioneRischiDVR($record){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../KpSitRischiDVR/ClassKpSitRischiDVRKp.php');
+
+        $dati_rilevazione = self::getDatiRilevazione($record);
+        $materiali_relazionati = self::getMaterialiUtilizzoRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
+
+        foreach($materiali_relazionati as $materiale){
+
+            foreach($materiale["lista_pericoli"] as $pericolo){
+
+                $filtro_situazione = array("azienda_id" => $dati_rilevazione["azienda"],
+                                        "stabilimento_id" => $dati_rilevazione["stabilimento"],
+                                        "area_id" => $dati_rilevazione["area_stabilimento"],
+                                        "related_to" => $materiale["id"],
+                                        "pericolo_id" => $pericolo["id"]);
+
+                $situazione_rischio = KpSitRischiDVRKp::getRigaSituazioneByFiltro($filtro_situazione);
+
+                if( $situazione_rischio["esiste"] ){
+
+                    $nome_riga = $pericolo["nome"];
+
+                    $focus = CRMEntity::getInstance('KpRilevazRischiRig');
+                    $focus->column_fields['assigned_user_id'] = $current_user->id;
+                    $focus->column_fields['kp_nome_riga'] = $nome_riga;
+                    $focus->column_fields['kp_rilevazione'] = $record;
+                    $focus->column_fields['kp_rischio'] = $pericolo["id"];
+                    $focus->column_fields['kp_related_to'] = $materiale["id"];
+                    $focus->column_fields['kp_attivo'] = '1';
+                    $focus->column_fields['kp_gravita_rischio'] = $situazione_rischio["gravita_rischio"];
+                    $focus->column_fields['kp_probabilita_risc'] = $situazione_rischio["probabilita_rischio"];
+                    $focus->column_fields['kp_valutazione_risc'] = $situazione_rischio["valutazione_rischio"];
+                    $focus->column_fields['kp_frase_risc_dvr'] = $situazione_rischio["frase_di_rischio"];
+                    $focus->column_fields['kp_area_stab'] = $dati_rilevazione["area_stabilimento"];
+                    $focus->column_fields['kp_misurazione'] = $situazione_rischio["misurazione"];
+                    $focus->column_fields['description'] = $situazione_rischio["descrizione"];
+                    $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
+
+                    $lista_ruoli = KpSitRischiDVRKp::getRuoliRelazionatiRigaSituazione( $situazione_rischio["id"] );
+                    
+                    foreach( $lista_ruoli as $ruolo ){
+
+                        if( self::checkIfRuoloRelazionatoArea($dati_rilevazione["area_stabilimento"], $ruolo["id"]) ){
+
+                            $insert = "INSERT INTO {$table_prefix}_crmentityrel (crmid, module, relcrmid, relmodule) 
+                                        VALUES
+                                        (".$focus->id.", 'KpRilevazRischiRig', ".$ruolo["id"].", 'KpRuoli')";
+                            $adb->query($insert);
+    
+                        }
+                        
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    static function checkIfRuoloRelazionatoArea($area, $ruolo){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        $query = "SELECT
+                    *
+                    FROM {$table_prefix}_crmentityrel rel
+                    WHERE 
+                    (rel.module = 'KpAreeStabilimento' AND rel.crmid = ".$area." AND rel.relmodule = 'KpRuoli' AND rel.relcrmid = ".$ruolo.")
+                    OR
+                    (rel.module = 'KpRuoli' AND rel.crmid = ".$ruolo." AND rel.relmodule = 'KpAreeStabilimento' AND rel.relcrmid = ".$area.")";
+        
+        $result_query = $adb->query($query);
+        $num_result = $adb->num_rows($result_query);
+
+        if( $num_result > 0 ){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+
 
 }
 

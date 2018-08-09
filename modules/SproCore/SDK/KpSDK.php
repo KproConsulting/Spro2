@@ -3349,5 +3349,106 @@ class KpSDK {
 	}
 
 	/* kpro@bid10072018 end */
+
+	/* kpro@tom09082018 */
+
+	static function creaTabellaQueryEseguite(){
+		global $adb, $table_prefix, $default_charset;
+
+		/**
+		 * @author Tomiello Marco
+		 * @copyright (c) 2018, Kpro Consulting Srl
+		 *
+		 * Questa funzione aggiorna la tabella contenente le query eseguite tramite SDK, in modo che non sia possibile eseguirle una seconda volta
+		 */
+
+		$nome_tabella = 'kp_query_sdk';
+
+		if(!self::esisteTabellaDatabase($nome_tabella)){
+
+			$create = "CREATE TABLE IF NOT EXISTS `".$nome_tabella."` (
+						`kp_id` INT(19) NOT NULL AUTO_INCREMENT,
+						`kp_data` VARCHAR(100) NOT NULL,
+						`kp_query` LONGTEXT,
+						PRIMARY KEY (`kp_id`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+		
+			$adb->query($create);
+
+			self::log("Creata tabella kp_query_sdk");
+
+		}
+
+	}
+
+	static function eseguiQuerySDK($query_da_eseguire){
+		global $adb, $table_prefix, $default_charset;
+
+		if( !self::checkIfQueryAlreadyExecute($query_da_eseguire) ){
+
+			$adb->query($query_da_eseguire);
+
+			$query_da_eseguire = html_entity_decode(strip_tags($query_da_eseguire), ENT_QUOTES, $default_charset);
+			$query_da_eseguire = addslashes($query_da_eseguire);
+
+			$insert = "INSERT INTO kp_query_sdk
+						(kp_data, kp_query)
+						VALUES
+						('".date("Y-m-d H:i:s")."', '".$query_da_eseguire."')";
+			$adb->query($insert);
+
+			self::log("Eseguita query ".$query_da_eseguire);
+
+		}
+		else{
+
+			self::log("Impossibile eseguire la query ".$query_da_eseguire." --> Motivo: Query già eseguita");
+
+		}
+
+
+	}
+
+	static function checkIfQueryAlreadyExecute($query_da_eseguire){
+		global $adb, $table_prefix, $default_charset;
+
+		$result = true;
+
+		$nome_tabella = 'kp_query_sdk';
+
+		if( !self::esisteTabellaDatabase($nome_tabella)){
+
+			self::creaTabellaQueryEseguite();
+			return false;
+
+		}
+
+		$query_da_eseguire = html_entity_decode(strip_tags($query_da_eseguire), ENT_QUOTES, $default_charset);
+		$query_da_eseguire = addslashes($query_da_eseguire);
+
+		$query = "SELECT
+					kp_id
+					FROM kp_query_sdk
+					WHERE kp_query = '".$query_da_eseguire."'";
+
+		$result_query = $adb->query($query);
+		$num_result = $adb->num_rows($result_query);
+
+		if($num_result > 0){
+
+			$result = true;
+
+		}
+		else{
+
+			$result = false;
+
+		}
+
+		return $result;
+
+	}
+
+	/* kpro@tom09082018 end */
 	
 }

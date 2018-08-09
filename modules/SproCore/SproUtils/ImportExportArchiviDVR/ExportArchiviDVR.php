@@ -32,7 +32,5 @@ $export->setPathExport(__DIR__);
 $export->setDbName("archivi_dvr.db");
 $export->runExport();
 
-//$export->getRecordTabellaPricipale("KpRischiDVR");
-
 
 ?>

@@ -949,6 +949,8 @@ class KpMigrazioneDati {
     private function insertRecord($modulo, $record){
         global $adb, $table_prefix, $default_charset, $current_user;
 
+        require_once(__DIR__.'/../../../../modules/SproCore/SDK/KpSDK.php');
+
         $current_user->id = 1;
 
         $modulo_entity = $this->getModuloEntity($modulo);
@@ -985,7 +987,46 @@ class KpMigrazioneDati {
 
                 }
                 else{
+
+                    if( $field["uitype"] == 15 ){
+
+                        $valore_disponibile = $this->checkIfValoreInPicklist($field["fieldname"], $record[ $field["columnname"] ]);
+
+                        if( !$valore_disponibile ){
+                            KpSDK::aggiungiAPickingList($nome_campo = $field["fieldname"], $array_valori = array( $record[ $field["columnname"] ] ) );
+                            printf("\n-----> Aggiunto valore %s a picklist %s", $record[ $field["columnname"] ], $field["fieldlabel"]);
+                        }
+
+                    }
+                    elseif( $field["uitype"] == 33 ){
+
+                        $array_values = explode( ' |##| ', $record[ $field["columnname"] ] );
+
+                        foreach( $array_values as $value ){
+
+                            $valore_disponibile = $this->checkIfValoreInPicklist($field["fieldname"], $value);
+
+                            if( !$valore_disponibile ){
+                                KpSDK::aggiungiAPickingList($nome_campo = $field["fieldname"], $array_valori = array( $value ) );
+                                printf("\n-----> Aggiunto valore %s a picklist multi-selezione %s", $value, $field["fieldlabel"]);
+                            }
+
+                        }
+
+                    }
+                    elseif( $field["uitype"] == 1015 ){
+
+                        $valore_disponibile = $this->checkIfValoreInPicklistMultilinguaggio($field["fieldname"], $record[ $field["columnname"] ]);
+
+                        if( !$valore_disponibile ){
+                            KpSDK::aggiungiAPickingListMultilinguaggio($nome_campo = $field["fieldname"], $codice = $record[ $field["columnname"] ], $valore = $record[ $field["columnname"] ]);
+                            printf("\n-----> Aggiunto valore %s a picklist multilinguaggio %s", $record[ $field["columnname"] ], $field["fieldlabel"]);
+                        }
+
+                    }
+
                     $focus->column_fields[ $field["fieldname"] ] = $record[ $field["columnname"] ];
+                    
                 }
 
             }
@@ -1014,6 +1055,8 @@ class KpMigrazioneDati {
 
     private function updateRecord($modulo, $record, $id){
         global $adb, $table_prefix, $default_charset, $current_user;
+
+        require_once(__DIR__.'/../../../../modules/SproCore/SDK/KpSDK.php');
 
         $current_user->id = 1;
 
@@ -1052,7 +1095,46 @@ class KpMigrazioneDati {
 
                 }
                 else{
+
+                    if( $field["uitype"] == 15 ){
+
+                        $valore_disponibile = $this->checkIfValoreInPicklist($field["fieldname"], $record[ $field["columnname"] ]);
+
+                        if( !$valore_disponibile ){
+                            KpSDK::aggiungiAPickingList($nome_campo = $field["fieldname"], $array_valori = array( $record[ $field["columnname"] ] ) );
+                            printf("\n-----> Aggiunto valore %s a picklist %s", $record[ $field["columnname"] ], $field["fieldlabel"]);
+                        }
+
+                    }
+                    elseif( $field["uitype"] == 33 ){
+
+                        $array_values = explode( ' |##| ', $record[ $field["columnname"] ] );
+
+                        foreach( $array_values as $value ){
+
+                            $valore_disponibile = $this->checkIfValoreInPicklist($field["fieldname"], $value);
+
+                            if( !$valore_disponibile ){
+                                KpSDK::aggiungiAPickingList($nome_campo = $field["fieldname"], $array_valori = array( $value ) );
+                                printf("\n-----> Aggiunto valore %s a picklist multi-selezione %s", $value, $field["fieldlabel"]);
+                            }
+
+                        }
+
+                    }
+                    elseif( $field["uitype"] == 1015 ){
+
+                        $valore_disponibile = $this->checkIfValoreInPicklistMultilinguaggio($field["fieldname"], $record[ $field["columnname"] ]);
+
+                        if( !$valore_disponibile ){
+                            KpSDK::aggiungiAPickingListMultilinguaggio($nome_campo = $field["fieldname"], $codice = $record[ $field["columnname"] ], $valore = $record[ $field["columnname"] ]);
+                            printf("\n-----> Aggiunto valore %s a picklist multilinguaggio %s", $record[ $field["columnname"] ], $field["fieldlabel"]);
+                        }
+
+                    }
+
                     $focus->column_fields[ $field["fieldname"] ] = $record[ $field["columnname"] ];
+
                 }
 
             }
@@ -1297,6 +1379,52 @@ class KpMigrazioneDati {
                     (crmid = ".$crmid." AND relcrmid = ".$relcrmid.")
                     OR
                     (crmid = ".$relcrmid." AND relcrmid = ".$crmid.")";
+
+        $result_query = $adb->query($query);
+        $num_result = $adb->num_rows($result_query);
+
+        if( $num_result > 0 ){
+
+            $result = true;
+
+        }
+
+        return $result;
+
+    }
+
+    private function checkIfValoreInPicklist($fieldname, $value){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        $result = false;
+
+        $query = "SELECT 
+                    *
+                    FROM {$table_prefix}_".$fieldname."
+                    WHERE ".$fieldname." = '".$value."'";
+
+        $result_query = $adb->query($query);
+        $num_result = $adb->num_rows($result_query);
+
+        if( $num_result > 0 ){
+
+            $result = true;
+
+        }
+
+        return $result;
+
+    }
+
+    private function checkIfValoreInPicklistMultilinguaggio($fieldname, $value){
+        global $adb, $table_prefix, $default_charset, $current_user;
+
+        $result = false;
+
+        $query = "SELECT 
+                    *
+                    FROM tbl_s_picklist_language
+                    WHERE field = '".$fieldname."' AND code = '".$value."'";
 
         $result_query = $adb->query($query);
         $num_result = $adb->num_rows($result_query);

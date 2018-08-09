@@ -32,7 +32,5 @@ $import->setPathImport(__DIR__);
 $import->setDbName("archivi_dvr.db");
 $import->runImport();
 
-//$export->getRecordTabellaPricipale("KpRischiDVR");
-
 
 ?>

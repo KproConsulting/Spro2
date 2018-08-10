@@ -2648,13 +2648,13 @@ class KpSitRischiDVRKp extends KpSitRischiDVR {
             ->setCategory("Excel Situazione Rischi ".$data_corrente_inv);
 
         $numero_foglio = 0;
-
+        
         self::getTemplateAreaExcel($filtro, $objPHPExcel, $numero_foglio);
-
+       
         $numero_foglio++;
 
         self::getTemplateAttivitaExcel($filtro, $objPHPExcel, $numero_foglio);
-
+        
         $numero_foglio++;
 
         self::getTemplateImpiantiExcel($filtro, $objPHPExcel, $numero_foglio);
@@ -2669,20 +2669,28 @@ class KpSitRischiDVRKp extends KpSitRischiDVR {
 
         $name = date("YmdHis")."_Situazione_Rischi";
 
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save('cache/'.$name.'.xlsx');
-
-        if(file_exists('cache/'.$name.'.xlsx')){
+        $excel_type = 'Excel5';
+        $excel_ext = 'xls';
+        $app_type = 'application/vnd.ms-excel';
+        
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $excel_type);
+        
+        $objWriter->save('cache/'.$name.'.'.$excel_ext);
+        
+        if(file_exists('cache/'.$name.'.'.$excel_ext)){
 
             @ob_clean();
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header("Content-length: ".filesize("./cache/$name.xlsx"));
+            header("Content-Type: {$app_type}");
+            header("Content-length: ".filesize("./cache/$name.$excel_ext"));
             header("Cache-Control: private");
-            header("Content-Disposition: attachment; filename=$name.xlsx");
+            header("Content-Disposition: attachment; filename=$name.$excel_ext");
             header("Content-Description: PHP Generated Data");
-            echo fread(fopen("./cache/$name.xlsx", "r"),filesize("./cache/$name.xlsx"));
+            echo fread(fopen("./cache/$name.$excel_ext", "r"),filesize("./cache/$name.$excel_ext"));
                         
-            @unlink("cache/$name.xlsx");
+            @unlink("cache/$name.$excel_ext");
+        }
+        else{
+            printf("Errore nella generazione dell'Excel!");
         }
 
     }

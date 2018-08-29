@@ -93,3 +93,4 @@ S-PRO 2.0
 - 23/08/2018 kpro@bid230820181130 Correzione bug che non mostrava il contatore nella related Documenti del modulo Tipi Documenti (necessario lancio manuale della query)
 - 29/08/2018 kpro@bid290820181150 Implementato presave del modulo Interventi per gestire i controlli nel Mass Edit e anche per il campo Ore Consuntive (contrattuali)
 - 29/08/2018 kpro@bid290820181600 correzioni per php7
+- 29/08/2018 kpro@bid290820181815 Correzione bug che faceva si che, nell'import di Impianti-Componenti-Checklists, la frequenza delle checklists fosse sempre vuota

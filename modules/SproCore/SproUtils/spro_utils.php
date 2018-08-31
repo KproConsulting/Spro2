@@ -3553,27 +3553,36 @@ function getDocumentiRedattiStabilimentoTipoDocumento($account, $stabilimento, $
 			
 			$data_scadenza = $adb->query_result($res_documenti, $i, 'data_scadenza');
 			$data_scadenza = html_entity_decode(strip_tags($data_scadenza), ENT_QUOTES, $default_charset);
-			list($anno_scad, $mese_scad, $giorno_scad) = explode("-", $data_scadenza);
-			$data_scadenza_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, $giorno_scad, $anno_scad));
-			$in_scadenza_reale_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, (int)$giorno_scad - $giorni_in_scadenza, $anno_scad));
-			
-			if($data_scadenza == '2099-12-31' || $data_scadenza == '2999-12-31' || $data_scadenza == '9999-12-31'){
-				$data_scadenza = '';
-				$stato = 'Valido senza scadenza';
-				$nota_stato = "Nota stato situazione documenti: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza pari a '31-12-2099' oppure '31-12-2999'.";
-			}
-			elseif($data_scadenza > $data_corrente && $data_scadenza <= $in_scadenza){
-				$stato = 'In scadenza';
-				$nota_stato = "Nota stato situazione documenti: Il documento e' 'In scadenza' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta compresa tra la data corrente (".$data_corrente_inv.") e la data in cui andra' 'In scadenza'(".$in_scadenza_reale_inv.").";
-			}
-			elseif($data_scadenza >= $in_scadenza){
-				$stato = 'In corso di validita';
-				$nota_stato = "Nota stato situazione documenti: Il documento e' 'In corso di validita' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta maggiore della data ".$in_scadenza_reale_inv." in cui andra' 'In scadenza'.";
+			if($data_scadenza != "" && $data_scadenza != null && $data_scadenza != "0000-00-00"){ /* kpro@bid310820180850 */
+				list($anno_scad, $mese_scad, $giorno_scad) = explode("-", $data_scadenza);
+				$data_scadenza_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, $giorno_scad, $anno_scad));
+				$in_scadenza_reale_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, (int)$giorno_scad - $giorni_in_scadenza, $anno_scad));
+
+				if($data_scadenza == '2099-12-31' || $data_scadenza == '2999-12-31' || $data_scadenza == '9999-12-31'){
+					$data_scadenza = '';
+					$stato = 'Valido senza scadenza';
+					$nota_stato = "Nota stato situazione documenti: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza vuota o pari a '31-12-2099' oppure '31-12-2999'.";
+				}
+				elseif($data_scadenza > $data_corrente && $data_scadenza <= $in_scadenza){
+					$stato = 'In scadenza';
+					$nota_stato = "Nota stato situazione documenti: Il documento e' 'In scadenza' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta compresa tra la data corrente (".$data_corrente_inv.") e la data in cui andra' 'In scadenza'(".$in_scadenza_reale_inv.").";
+				}
+				elseif($data_scadenza >= $in_scadenza){
+					$stato = 'In corso di validita';
+					$nota_stato = "Nota stato situazione documenti: Il documento e' 'In corso di validita' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta maggiore della data ".$in_scadenza_reale_inv." in cui andra' 'In scadenza'.";
+				}
+				else{
+					$stato = 'Scaduto';
+					$nota_stato = "Nota stato situazione documenti: Il documento e' 'Scaduto' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta inferiore alla data odierna (".$data_corrente_inv.").";
+				}
+			/* kpro@bid310820180850 */
 			}
 			else{
-				$stato = 'Scaduto';
-				$nota_stato = "Nota stato situazione documenti: Il documento e' 'Scaduto' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta inferiore alla data odierna (".$data_corrente_inv.").";
+				$data_scadenza = '';
+				$stato = 'Valido senza scadenza';
+				$nota_stato = "Nota stato situazione documenti: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza vuota o pari a '31-12-2099' oppure '31-12-2999'.";
 			}
+			/* kpro@bid310820180850 end */
 			
 			$result[] = array(
 				'id' => $notesid,
@@ -3656,6 +3665,8 @@ function setSituazioneDocumenti($account, $stabilimento, $tipo_documento, $data_
 		
 		$kpsituazionedocumentiid = $adb->query_result($res_verifica,0,'kpsituazionedocumentiid');
 		$kpsituazionedocumentiid = html_entity_decode(strip_tags($kpsituazionedocumentiid), ENT_QUOTES,$default_charset);
+
+		$nota_stato = addslashes($nota_stato); /* kpro@bid310820180850 */
 		
 		$upd = "UPDATE {$table_prefix}_kpsituazionedocumenti SET
 				kp_azienda = ".$account.",
@@ -3671,8 +3682,6 @@ function setSituazioneDocumenti($account, $stabilimento, $tipo_documento, $data_
 				description = '".$nota_stato."'
 				WHERE kpsituazionedocumentiid = ".$kpsituazionedocumentiid;
 		$adb->query($upd);
-		
-		$nota_stato = addslashes($nota_stato);
 		
 		echo "<br>----------- AGGIORNATO record ".$kpsituazionedocumentiid."<br>";
 	}
@@ -4081,27 +4090,36 @@ function getDocumentiFornitoreRedattiRisorsaTipoDocumento($fornitore, $risorsa, 
 			
 			$data_scadenza = $adb->query_result($res_documenti, $i, 'data_scadenza');
 			$data_scadenza = html_entity_decode(strip_tags($data_scadenza), ENT_QUOTES, $default_charset);
-			list($anno_scad, $mese_scad, $giorno_scad) = explode("-", $data_scadenza);
-			$data_scadenza_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, $giorno_scad, $anno_scad));
-			$in_scadenza_reale_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, (int)$giorno_scad - $giorni_in_scadenza, $anno_scad));
-			
-			if($data_scadenza == '2099-12-31' || $data_scadenza == '2999-12-31' || $data_scadenza == '9999-12-31'){
-				$data_scadenza = '';
-				$stato = 'Valido senza scadenza';
-				$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza pari a '31-12-2099' oppure '31-12-2999'.";
-			}
-			elseif($data_scadenza > $data_corrente && $data_scadenza <= $in_scadenza){
-				$stato = 'In scadenza';
-				$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'In scadenza' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta compresa tra la data corrente (".$data_corrente_inv.") e la data in cui andra' 'In scadenza'(".$in_scadenza_reale_inv.").";
-			}
-			elseif($data_scadenza >= $in_scadenza){
-				$stato = 'In corso di validita';
-				$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'In corso di validita' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta maggiore della data ".$in_scadenza_reale_inv." in cui andra' 'In scadenza'.";
+			if($data_scadenza != "" && $data_scadenza != null && $data_scadenza != "0000-00-00"){ /* kpro@bid310820180850 */
+				list($anno_scad, $mese_scad, $giorno_scad) = explode("-", $data_scadenza);
+				$data_scadenza_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, $giorno_scad, $anno_scad));
+				$in_scadenza_reale_inv = date("d-m-Y", mktime(0, 0, 0, $mese_scad, (int)$giorno_scad - $giorni_in_scadenza, $anno_scad));
+				
+				if($data_scadenza == '2099-12-31' || $data_scadenza == '2999-12-31' || $data_scadenza == '9999-12-31'){
+					$data_scadenza = '';
+					$stato = 'Valido senza scadenza';
+					$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza vuota o pari a '31-12-2099' oppure '31-12-2999'.";
+				}
+				elseif($data_scadenza > $data_corrente && $data_scadenza <= $in_scadenza){
+					$stato = 'In scadenza';
+					$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'In scadenza' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta compresa tra la data corrente (".$data_corrente_inv.") e la data in cui andra' 'In scadenza'(".$in_scadenza_reale_inv.").";
+				}
+				elseif($data_scadenza >= $in_scadenza){
+					$stato = 'In corso di validita';
+					$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'In corso di validita' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta maggiore della data ".$in_scadenza_reale_inv." in cui andra' 'In scadenza'.";
+				}
+				else{
+					$stato = 'Scaduto';
+					$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'Scaduto' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta inferiore alla data odierna (".$data_corrente_inv.").";
+				}
+			/* kpro@bid310820180850 */
 			}
 			else{
-				$stato = 'Scaduto';
-				$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'Scaduto' in quanto la data della scadenza dell'ultimo documento redatto (".$data_scadenza_inv.") risulta inferiore alla data odierna (".$data_corrente_inv.").";
+				$data_scadenza = '';
+				$stato = 'Valido senza scadenza';
+				$nota_stato = "Nota stato situazione documenti fornitori: Il documento e' 'Valido senza scadenza' in quanto l'ultimo documento redatto ha data scadenza vuota o pari a '31-12-2099' oppure '31-12-2999'.";
 			}
+			/* kpro@bid310820180850 end */
 			
 			$result[] = array(
 				'id' => $notesid,
@@ -4188,6 +4206,8 @@ function setSituazioneDocumentiFornitore($fornitore, $risorsa, $tipo_documento, 
 		
 		$kpsituazionedocfornitid = $adb->query_result($res_verifica,0,'kpsituazionedocfornitid');
 		$kpsituazionedocfornitid = html_entity_decode(strip_tags($kpsituazionedocfornitid), ENT_QUOTES,$default_charset);
+
+		$nota_stato = addslashes($nota_stato); /* kpro@bid310820180850 */
 		
 		$upd = "UPDATE {$table_prefix}_kpsituazionedocfornit SET
 				kp_fornitore = ".$fornitore.",
@@ -4202,8 +4222,6 @@ function setSituazioneDocumentiFornitore($fornitore, $risorsa, $tipo_documento, 
 				description = '".$nota_stato."'
 				WHERE kpsituazionedocfornitid = ".$kpsituazionedocfornitid;
 		$adb->query($upd);
-		
-		$nota_stato = addslashes($nota_stato);
 		
 		echo "<br>----------- AGGIORNATO record ".$kpsituazionedocfornitid."<br>";
 	}

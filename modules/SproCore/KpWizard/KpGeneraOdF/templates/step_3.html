@@ -1,0 +1,85 @@
+<h2>Seleziona i tickets da fatturare</h2>
+
+<table id='tabella_lista_tickets' style='width: 100%; margin: 0px;' class='table table-striped'>
+    <thead>
+        <tr>
+
+            <th style='text-align: center; width: 40px;'>
+                <div class="form-group">
+                    <label for="check_tickets"></label>
+                    <input type="checkbox" id="check_tickets" >
+                </div>
+            </th>
+
+            <th style='text-align: left;'>
+                <div class="form-group">
+                    <label for="search_table_tickets_nome_ticket">Titolo</label>
+                    <input type="text" class="form-control" id="search_table_tickets_nome_ticket" placeholder="">
+                </div>
+            </th>
+
+            <th style='text-align: left;'>
+                <div class="form-group">
+                    <label for="search_table_tickets_azienda">Azienda</label>
+                    <input type="text" class="form-control" id="search_table_tickets_azienda" placeholder="">
+                </div>
+            </th>
+
+            <th style='text-align: left;'>
+                <div class="form-group">
+                    <label for="search_table_tickets_servizio">Servizio</label>
+                    <input type="text" class="form-control" id="search_table_tickets_servizio" placeholder="">
+                </div>
+            </th>
+            <!-- kpro@bid040920181110 -->
+            <th style='text-align: right;'>
+                <div class="form-group">
+                    <label for="search_table_tickets_ore">Ore</label>
+                    <input type="text" class="form-control" id="search_table_tickets_ore" readonly disabled placeholder="">
+                </div>
+            </th>
+            <!-- kpro@bid040920181110 end -->
+            <th style='text-align: right;'>
+                <div class="form-group">
+                    <label for="search_table_tickets_prezzo">Prezzo</label>
+                    <input type="text" class="form-control" id="search_table_tickets_prezzo" readonly disabled placeholder="">
+                </div>
+            </th>
+
+            <th style='text-align: left;'></th>
+
+        </tr>
+    </thead>
+    <tbody id="table_tickets">
+    </tbody>
+
+</table>
+
+<table id="tabella_risultati_tickets" style='display:none; width: 100%; margin: 0px;' class='table table-striped'>
+    <tbody>
+        <tr>
+            <td>Totale Ticket da Fatturare</td>
+            <td id="totale_ticket_da_fatturare"></td>
+        </tr>
+        <tr>
+            <td>Totale OdF Creati</td>
+            <td id="ticket_totale_odf_creati"></td>
+        </tr>
+        <tr>
+            <td>Totale Ticket senza Servizio</td>
+            <td id="totale_ticket_senza_servizio"></td>
+        </tr>
+        <tr>
+            <td>Totale Ticket senza Prezzo</td>
+            <td id="totale_ticket_senza_prezzo"></td>
+        </tr>
+        <tr>
+            <td>Totale Ticket senza Qta</td>
+            <td id="totale_ticket_senza_tempo"></td>
+        </tr>
+        <tr>
+            <td>Totale Ticket senza Cliente</td>
+            <td id="totale_ticket_senza_cliente"></td>
+        </tr>
+    </tbody>
+</table>

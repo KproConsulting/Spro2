@@ -97,3 +97,5 @@ S-PRO 2.0
 - 31/08/2018 kpro@bid310820180850 Correzione bug che cancellava righe da Situazione Documenti e Situazione Documenti Fornitori e che metteva il documento Scaduto se aveva data scadenza vuota
 - 04/09/2018 kpro@bid040920181110 Correzione bug e implementazioni varie nella generazione massiva OdF e generazione OdF da ticket
 - 04/09/2018 kpro@tom040920181634 Correzione per riportare il prezzo servizio delle righe preventivo, ordine, fattura, ecc....
+- 05/09/2018 kpro@bid050920180930 Correzione bug che mostrava i campi data dei blocchi relazionati nel PDFMaker in formato aaaa-mm-gg anzichè gg-mm-aaaa
+- 05/09/2018 kpro@bid050920180945 Correzione bug che bloccava l'apertura del popup di creazione evento/compito attraverso il tasto + nel modulo Calendario

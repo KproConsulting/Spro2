@@ -100,4 +100,4 @@ S-PRO 2.0
 - 05/09/2018 kpro@bid050920180930 Correzione bug che mostrava i campi data dei blocchi relazionati nel PDFMaker in formato aaaa-mm-gg anzichè gg-mm-aaaa
 - 05/09/2018 kpro@bid050920180945 Correzione bug che bloccava l'apertura del popup di creazione evento/compito attraverso il tasto + nel modulo Calendario
 - 05/09/2018 kpro@bid050920181500 Implementato supporto della variabile _tipo_documento_ nei template e-mail per l'invio massivo fatture e aggiunto supporto anche per le variabili standard dei template email (solo nome azienda, numero fattura, tipo documento)
-- 07/09/2018 kpro@bid070920181520 Correzione bug che ad alcune funzioni della gestione avvisi di girare correttamente e aggiunta funzione per ricalcolare le aziende collegate agli attestati subito dopo la creazione
+- 07/09/2018 kpro@bid070920181520 Aggiunta funzione per ricalcolare le aziende collegate agli attestati subito dopo la creazione

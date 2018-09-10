@@ -2817,12 +2817,16 @@ function calcolaNumeroMesiIncremento($frequenza){
         case "Quinquennale":	
             $numeroMesiIncremento = 60;	
             break;
+		    
+	case "Decennale":	
+            $numeroMesiIncremento = 120;	
+            break;
 
         case "Quindicennale":	
             $numeroMesiIncremento = 180;	
             break;
 
-		case "Illimitata":
+	case "Illimitata":
             $numeroMesiIncremento = 999;
             break;
     }

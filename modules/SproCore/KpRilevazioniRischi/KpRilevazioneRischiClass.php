@@ -66,7 +66,7 @@ class KpRilevazioneRischiClass {
 
         $related_to = $dati_rilevazione["area_stabilimento"];
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 
@@ -464,7 +464,7 @@ class KpRilevazioneRischiClass {
 
         $nome_riga = $nome_pericolo;
 
-        if( $riga["esiste"] ){
+        if( $riga["esiste"] && $dati["attivo"] == '1' ){
 
             $focus = CRMEntity::getInstance('KpRilevazRischiRig');
             $focus->retrieve_entity_info( $riga["id"], "KpRilevazRischiRig" );
@@ -480,6 +480,21 @@ class KpRilevazioneRischiClass {
             $focus->mode = 'edit';
             $focus->id = $riga["id"];
             $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false);
+
+            $nome_riga = addslashes($nome_riga);
+
+            $update = "UPDATE {$table_prefix}_kprilevazrischirig SET
+                        kp_nome_riga = '".$nome_riga."'
+                        WHERE kprilevazrischirigid = ".$focus->id;
+            $adb->query($update);
+
+        }
+        elseif( $riga["esiste"] ){
+
+            $update = "UPDATE {$table_prefix}_crmentity SET
+                        deleted = 1
+                        WHERE crmid = ".$riga["id"];
+            $adb->query($update);          
 
         }
         else{
@@ -500,6 +515,13 @@ class KpRilevazioneRischiClass {
 			$focus->column_fields['description'] = $dati["descrizione"];
             $focus->save('KpRilevazRischiRig', $longdesc=true, $offline_update=false, $triggerEvent=false); 
 
+            $nome_riga = addslashes($nome_riga);
+
+            $update = "UPDATE {$table_prefix}_kprilevazrischirig SET
+                        kp_nome_riga = '".$nome_riga."'
+                        WHERE kprilevazrischirigid = ".$focus->id;
+            $adb->query($update);
+
             $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
 
             for($i = 0; $i < count($ruoli_relazionati); $i++){
@@ -509,13 +531,6 @@ class KpRilevazioneRischiClass {
             }
 
         }
-
-        $nome_riga = addslashes($nome_riga);
-
-        $update = "UPDATE {$table_prefix}_kprilevazrischirig SET
-                    kp_nome_riga = '".$nome_riga."'
-                    WHERE kprilevazrischirigid = ".$focus->id;
-        $adb->query($update);
 
         return self::getPericoloRilevazione($rilevazione, $dati["pericolo"], $dati["related_to"]);
 
@@ -1089,7 +1104,7 @@ class KpRilevazioneRischiClass {
         $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
         $attivita_relazionate = self::getAttivitaRelazionateArea( $dati_rilevazione["area_stabilimento"] );
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 
@@ -1303,7 +1318,7 @@ class KpRilevazioneRischiClass {
         $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
         $tipi_impianti_relazionati = self::getTipiImpiantiRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 
@@ -1495,7 +1510,7 @@ class KpRilevazioneRischiClass {
         $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
         $sostanze_chiniche_relazionate = self::getSostanzeChimicheRelazionateArea( $dati_rilevazione["area_stabilimento"] );
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 
@@ -1687,7 +1702,7 @@ class KpRilevazioneRischiClass {
         $ruoli_relazionati = self::getRuoliRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
         $materiali_relazionati = self::getMaterialiUtilizzoRelazionatiArea( $dati_rilevazione["area_stabilimento"] );
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 

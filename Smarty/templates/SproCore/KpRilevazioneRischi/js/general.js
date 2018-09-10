@@ -64,6 +64,7 @@ var jtabella_rilevazione;
 var jbottone_pdf;
 var jbottone_excel;
 var jform_descrizione_pericolo;
+var jgif_freccia;
 
 jQuery(document).ready(function() {
 
@@ -134,29 +135,10 @@ function reSize() {
     jlayoutObj.height(altezza_layoutObj);
 
     if (jrilevazioneContainer) {
-        jrilevazioneContainer.height(altezza_layoutObj - 130);
-        jdettagliContainer.height(altezza_layoutObj - 130);
-    }
+        jrilevazioneContainer.height(altezza_layoutObj - 50);
+        jdettagliContainer.height(altezza_layoutObj - 120);
 
-    if( jtabella_rilevazione ){
-
-        if (jtabella_rilevazione.height() > (altezza_layoutObj - 130)) {
-
-            jlayoutObj.height(jtabella_rilevazione.height() + 130);
-            jrilevazioneContainer.height(jtabella_rilevazione.height());
-            jdettagliContainer.height(jtabella_rilevazione.height());
-
-            kproLayout.setSizes();
-
-        } else {
-
-            jlayoutObj.height(altezza_layoutObj);
-            jrilevazioneContainer.height(altezza_layoutObj - 130);
-            jdettagliContainer.height(altezza_layoutObj - 130);
-
-            kproLayout.setSizes();
-        }
-
+        jrilevazioneContainer.css("overflow-y", "scroll");
     }
 
 }
@@ -415,7 +397,12 @@ function getTemplate(modulo) {
             jdettagliContainer.empty();
             jrilevazioneContainer.append(data["table"]);
 
+            var immagine_freccia = "<img id='gif_freccia' src='Smarty/templates/SproCore/KpRilevazioneRischi/img/arrow_right.gif' style='position: absolute; right: 0px; top: 100px; display: none;' height='100' width='200'></img>";
+
+            jrilevazioneContainer.append(immagine_freccia);
+
             jtabella_rilevazione = jQuery(".tabella_rilevazione");
+            jgif_freccia = jQuery("#gif_freccia");
 
             reSize();
 
@@ -461,6 +448,12 @@ function getTemplate(modulo) {
 }
 
 function getTemplatePericolo(related_to, pericolo) {
+
+    if (jgif_freccia.is(':visible')) {
+        jgif_freccia.hide();
+    } else {
+        jgif_freccia.show();
+    }
 
     jQuery.get("Smarty/templates/SproCore/KpRilevazioneRischi/templates/dettagli_pericolo.html", function(data) {
 
@@ -514,6 +507,8 @@ function getTemplatePericolo(related_to, pericolo) {
         jform_descrizione_pericolo.val("");
 
         getDatiPericolo(related_to, pericolo);
+
+        startBlinKArrow();
 
         jform_check_pericolo_area.change(function() {
 
@@ -1342,29 +1337,6 @@ function getPDF() {
 
     window.open("Smarty/templates/SproCore/KpRilevazioneRischi/php/getPDF.php?record=" + record, "_blank");
 
-    /*jQuery.ajax({
-        url: 'Smarty/templates/SproCore/KpRilevazioneRischi/php/getPDF.php',
-        dataType: 'json',
-        async: true,
-        data: dati,
-        beforeSend: function() {
-
-
-        },
-        success: function(data) {
-            //console.log(data);
-
-
-        },
-        fail: function() {
-
-            console.error("Errore!");
-
-            //location.reload();
-
-        }
-    });*/
-
 }
 
 function getExcel() {
@@ -1374,5 +1346,19 @@ function getExcel() {
     };
 
     window.open("Smarty/templates/SproCore/KpRilevazioneRischi/php/getExcel.php?record=" + record, "_blank");
+
+}
+
+function startBlinKArrow(){
+
+    jgif_freccia.show();
+
+    var changeStatusArrow = window.setTimeout("stopBlinKArrow()", 3000);
+
+}
+
+function stopBlinKArrow(){
+
+    jgif_freccia.hide();
 
 }

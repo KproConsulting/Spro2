@@ -515,6 +515,23 @@ function getTemplatePericolo(related_to, pericolo) {
         jform_check_pericolo_area.change(function() {
 
             if (jQuery(this).prop("checked")) {
+
+                if( elemento_selezionato.probabilita_pericolo == '' ){
+                    elemento_selezionato.probabilita_pericolo = "1";
+                    jform_probabilita_pericolo.val(elemento_selezionato.probabilita_pericolo);
+                    var probabilita_pericolo_temp = jQuery("#form_probabilita_pericolo option:selected").text();
+                    jQuery("#" + elemento_selezionato.related_to + "_" + elemento_selezionato.pericolo + " .td_probabilita").html(probabilita_pericolo_temp);
+                    setValuePickPericolo();
+                }
+
+                if( elemento_selezionato.magnitudo_pericolo == '' ){
+                    elemento_selezionato.magnitudo_pericolo = "1";
+                    jform_magnitudo_pericolo.val(elemento_selezionato.magnitudo_pericolo);
+                    var magnitudo_pericolo_temp = jQuery("#form_magnitudo_pericolo option:selected").text();
+                    jQuery("#" + elemento_selezionato.related_to + "_" + elemento_selezionato.pericolo + " .td_magnitudo").html(magnitudo_pericolo_temp);
+                    setValuePickPericolo();
+                }
+
                 jform_misurazione_rischio.show();
                 jtab_ruoli.show();
                 jtab_misure.show();
@@ -658,14 +675,38 @@ function getDatiPericolo(related_to, pericolo) {
 
             jreadonly_nome_pericolo.val(elemento_selezionato.nome_pericolo);
 
+            elemento_selezionato.probabilita_pericolo = "";
             var probabilita_pericolo_temp = data["probabilita"];
-            probabilita_pericolo_temp = probabilita_pericolo_temp.split("-");
+            if( probabilita_pericolo_temp != "" ){
+                probabilita_pericolo_temp = probabilita_pericolo_temp.split("-");
+                if( probabilita_pericolo_temp.length > 0 ){
+                    elemento_selezionato.probabilita_pericolo = probabilita_pericolo_temp[0].trim();
+                }
+            }
 
+            elemento_selezionato.magnitudo_pericolo = "";
             var magnitudo_pericolo_temp = data["magnitudo"];
-            magnitudo_pericolo_temp = magnitudo_pericolo_temp.split("-");
+            if( magnitudo_pericolo_temp != "" ){
+                magnitudo_pericolo_temp = magnitudo_pericolo_temp.split("-");
+                if( magnitudo_pericolo_temp.length > 0 ){
+                    elemento_selezionato.magnitudo_pericolo = magnitudo_pericolo_temp[0].trim();
+                }
+            }
 
-            jform_probabilita_pericolo.val(probabilita_pericolo_temp[0].trim());
-            jform_magnitudo_pericolo.val(magnitudo_pericolo_temp[0].trim());
+            if( elemento_selezionato.probabilita_pericolo != "" ){
+                jform_probabilita_pericolo.val(elemento_selezionato.probabilita_pericolo);
+            }
+            else{
+                jform_probabilita_pericolo.val("1");
+            }
+
+            if( elemento_selezionato.magnitudo_pericolo != "" ){
+                jform_magnitudo_pericolo.val(elemento_selezionato.magnitudo_pericolo);
+            }
+            else{
+                jform_magnitudo_pericolo.val("1");
+            }
+            
             jreadonly_rischio_pericolo.val(data["rischio"]);
 
             jform_descrizione_pericolo.val(elemento_selezionato.descrizione);

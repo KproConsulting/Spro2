@@ -105,7 +105,7 @@ class KpRilevazioneRischiClass {
 
                 }
 
-                $table .= "<td style='vertical-align: middle;'>";
+                $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                 $table .= "<div class='checkbox'>";
                 $table .= "<label>";
                 if( $dati_riga["check"] ){
@@ -118,7 +118,7 @@ class KpRilevazioneRischiClass {
                 $table .= "</div>";
                 $table .= "</b></td>";
 
-                if( $dati_riga["check"] ){
+                if( $dati_riga["check"] && $dati_riga["rischio"] != "" ){
                     $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                     $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                     $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";
@@ -163,7 +163,7 @@ class KpRilevazioneRischiClass {
             $table .= "<div class='checkbox'>";
             $table .= "<label>";
 
-            if( $dati_riga["check"] ){
+            if( $dati_riga["check"] && $dati_riga["rischio"] != "" ){
 
                 if( self::checkIfRuoloRelazionatoARiga($dati_riga["id_riga_ril"], $ruolo["id"]) ){
                     $table .= "<input type='checkbox' id='pericolo_ruolo_".$related_to."_".$pericolo."_".$ruolo["id"]."' checked readonly disabled >";
@@ -357,13 +357,26 @@ class KpRilevazioneRischiClass {
             $probabilita = $focus_riga->column_fields["kp_probabilita_risc"];
             $probabilita = html_entity_decode(strip_tags($probabilita), ENT_QUOTES, $default_charset);
 
-            $rischio = $focus_riga->column_fields["kp_valutazione_risc"];
-            $rischio = html_entity_decode(strip_tags($rischio), ENT_QUOTES, $default_charset);
+            if( $magnitudo == "" || $magnitudo == null || $probabilita == "" || $probabilita == null ){
 
-            $frase_di_rischio = $focus_riga->column_fields["kp_frase_risc_dvr"];
-            $frase_di_rischio = html_entity_decode(strip_tags($frase_di_rischio), ENT_QUOTES, $default_charset);
-            if( $frase_di_rischio == null ){
+                $rischio = "";
                 $frase_di_rischio = "";
+
+            }
+            else{
+
+                $rischio = $focus_riga->column_fields["kp_valutazione_risc"];
+                $rischio = html_entity_decode(strip_tags($rischio), ENT_QUOTES, $default_charset);
+                if( $rischio == 0 || $rischio == "" || $rischio == null ){
+                    $rischio = "";
+                }
+
+                $frase_di_rischio = $focus_riga->column_fields["kp_frase_risc_dvr"];
+                $frase_di_rischio = html_entity_decode(strip_tags($frase_di_rischio), ENT_QUOTES, $default_charset);
+                if( $frase_di_rischio == null ){
+                    $frase_di_rischio = "";
+                }
+
             }
 
             $misurazione = $focus_riga->column_fields["kp_misurazione"];
@@ -397,13 +410,14 @@ class KpRilevazioneRischiClass {
             $check = false;
             $id_riga_ril = 0;
             $misurazione = 0;
-			$descrizione = "";
+            $descrizione = "";
 
         }
 
         for( $i = 0; $i < count($ruoli_relazionati); $i++ ){
 
-            if($riga["esiste"]){
+            if($riga["esiste"] && $rischio != "" ){
+                //printf("\n<br />".$riga["id"]."->".$ruoli_relazionati[$i]["id"]."->".$rischio);
                 $check_ruolo =  self::checkIfRuoloRelazionatoARiga($riga["id"], $ruoli_relazionati[$i]["id"]);
             }
             else{
@@ -413,6 +427,7 @@ class KpRilevazioneRischiClass {
             $lista_ruoli[] = array("id" => $ruoli_relazionati[$i]["id"],
                                     "nome" => $ruoli_relazionati[$i]["nome"],
                                     "check" => $check_ruolo);
+            
         }
 
         $result = array("id" => $pericolo,
@@ -431,6 +446,10 @@ class KpRilevazioneRischiClass {
                         "help_magnitudo" => $help_magnitudo,
 						"descrizione" => $descrizione,
                         "lista_ruoli" => $lista_ruoli);
+
+        /*printf("\n<br />");
+        print_r($result);
+        printf("\n<br />");*/
 
         return $result;
 
@@ -1147,7 +1166,7 @@ class KpRilevazioneRischiClass {
 
                     }
 
-                    $table .= "<td style='vertical-align: middle;'>";
+                    $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                     $table .= "<div class='checkbox'>";
                     $table .= "<label>";
                     if( $dati_riga["check"] ){
@@ -1160,7 +1179,7 @@ class KpRilevazioneRischiClass {
                     $table .= "</div>";
                     $table .= "</b></td>";
 
-                    if( $dati_riga["check"] ){
+                    if( $dati_riga["check"] && $dati_riga["rischio"] != ""){
                         $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                         $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                         $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";
@@ -1361,7 +1380,7 @@ class KpRilevazioneRischiClass {
 
                     }
 
-                    $table .= "<td style='vertical-align: middle;'>";
+                    $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                     $table .= "<div class='checkbox'>";
                     $table .= "<label>";
                     if( $dati_riga["check"] ){
@@ -1374,7 +1393,7 @@ class KpRilevazioneRischiClass {
                     $table .= "</div>";
                     $table .= "</b></td>";
 
-                    if( $dati_riga["check"] ){
+                    if( $dati_riga["check"] && $dati_riga["rischio"] != "" ){
                         $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                         $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                         $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";
@@ -1553,7 +1572,7 @@ class KpRilevazioneRischiClass {
 
                     }
 
-                    $table .= "<td style='vertical-align: middle;'>";
+                    $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                     $table .= "<div class='checkbox'>";
                     $table .= "<label>";
                     if( $dati_riga["check"] ){
@@ -1566,7 +1585,7 @@ class KpRilevazioneRischiClass {
                     $table .= "</div>";
                     $table .= "</b></td>";
 
-                    if( $dati_riga["check"] ){
+                    if( $dati_riga["check"] && $dati_riga["rischio"] != "" ){
                         $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                         $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                         $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";
@@ -1745,7 +1764,7 @@ class KpRilevazioneRischiClass {
 
                     }
 
-                    $table .= "<td style='vertical-align: middle;'>";
+                    $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                     $table .= "<div class='checkbox'>";
                     $table .= "<label>";
                     if( $dati_riga["check"] ){
@@ -1758,7 +1777,7 @@ class KpRilevazioneRischiClass {
                     $table .= "</div>";
                     $table .= "</b></td>";
 
-                    if( $dati_riga["check"] ){
+                    if( $dati_riga["check"] && $dati_riga["rischio"] != "" ){
                         $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                         $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                         $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";

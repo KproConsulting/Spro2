@@ -403,6 +403,7 @@ function getTemplate(modulo) {
 
             jtabella_rilevazione = jQuery(".tabella_rilevazione");
             jgif_freccia = jQuery("#gif_freccia");
+            jtr_pericolo = jQuery(".tr_pericolo");
 
             reSize();
 
@@ -419,7 +420,6 @@ function getTemplate(modulo) {
 
             }
 
-            jtr_pericolo = jQuery(".tr_pericolo");
             jtr_pericolo.click(function() {
 
                 var temp = jQuery(this).attr("id");
@@ -451,9 +451,11 @@ function getTemplatePericolo(related_to, pericolo) {
 
     if (jgif_freccia.is(':visible')) {
         jgif_freccia.hide();
-    } else {
-        jgif_freccia.show();
     }
+
+    jQuery(".tr_pericolo > .td_pericolo").removeClass("pericolo_selezionato");
+
+    jQuery("#" + related_to + "_" + pericolo + " > .td_pericolo").addClass("pericolo_selezionato");
 
     jQuery.get("Smarty/templates/SproCore/KpRilevazioneRischi/templates/dettagli_pericolo.html", function(data) {
 

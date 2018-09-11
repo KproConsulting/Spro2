@@ -449,10 +449,6 @@ function getTemplate(modulo) {
 
 function getTemplatePericolo(related_to, pericolo) {
 
-    if (jgif_freccia.is(':visible')) {
-        jgif_freccia.hide();
-    }
-
     jQuery(".tr_pericolo > .td_pericolo").removeClass("pericolo_selezionato");
 
     jQuery("#" + related_to + "_" + pericolo + " > .td_pericolo").addClass("pericolo_selezionato");

@@ -40,7 +40,7 @@ class KpRilRischiQualitaClass {
 
         $table = "";
 
-        $table = "<table style='width: 100%; margin: 0px;' class='table table-striped table-hover tabella_rilevazione'>";
+        $table = "<table style='width: 99%; margin: auto;' class='table table-striped table-hover tabella_rilevazione'>";
         $table .= "<thead>";
         $table .= "<tr>";
 
@@ -79,7 +79,7 @@ class KpRilRischiQualitaClass {
 
                 }
 
-                $table .= "<td style='vertical-align: middle;'>";
+                $table .= "<td class='td_pericolo' style='vertical-align: middle;'>";
                 $table .= "<div class='checkbox'>";
                 $table .= "<label>";
                 if( $dati_riga["check"] ){
@@ -257,7 +257,7 @@ class KpRilRischiQualitaClass {
             $nome_riga = substr($nome_riga, 0, 100);
         }
 
-        if( $riga["esiste"] ){
+        if( $riga["esiste"] && $dati["attivo"] == '1' ){
 
             $focus = CRMEntity::getInstance('KpRigheRilRischiQual');
             $focus->retrieve_entity_info( $riga["id"], "KpRigheRilRischiQual" );
@@ -270,6 +270,14 @@ class KpRilRischiQualitaClass {
             $focus->mode = 'edit';
             $focus->id = $riga["id"];
             $focus->save('KpRigheRilRischiQual', $longdesc=true, $offline_update=false, $triggerEvent=false);
+
+        }
+        elseif( $riga["esiste"] ){
+
+            $update = "UPDATE {$table_prefix}_crmentity SET
+                        deleted = 1
+                        WHERE crmid = ".$riga["id"];
+            $adb->query($update);          
 
         }
         else{

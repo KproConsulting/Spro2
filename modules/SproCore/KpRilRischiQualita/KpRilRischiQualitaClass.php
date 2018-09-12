@@ -92,7 +92,7 @@ class KpRilRischiQualitaClass {
                 $table .= "</div>";
                 $table .= "</b></td>";
 
-                if( $dati_riga["check"] ){
+                if( $dati_riga["check"] && $dati_riga["rischio"] != "" && $dati_riga["rischio"] != "0" ){
                     $table .= "<td class='td_probabilita' style='vertical-align: middle'>".$dati_riga["probabilita"]."</td>";
                     $table .= "<td class='td_magnitudo' style='vertical-align: middle'>".$dati_riga["magnitudo"]."</td>";
                     $table .= "<td class='td_rischio' style='vertical-align: middle'>".$dati_riga["rischio"]." - ".$dati_riga["frase_di_rischio"]."</td>";

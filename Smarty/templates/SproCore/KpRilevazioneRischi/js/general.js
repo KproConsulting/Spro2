@@ -14,6 +14,8 @@ var kproLayout;
 var jlayoutObj;
 var altezza_layoutObj;
 var readonly = true;
+var time_blink = 3000;
+var changeStatusArrow;
 
 var elemento_selezionato = {};
 var tipo_misura_riduttiva_selezionata = {};
@@ -1392,7 +1394,7 @@ function startBlinKArrow(){
 
     jgif_freccia.show();
 
-    var changeStatusArrow = window.setTimeout("stopBlinKArrow()", 3000);
+    changeStatusArrow = window.setTimeout("stopBlinKArrow()", time_blink);
 
 }
 

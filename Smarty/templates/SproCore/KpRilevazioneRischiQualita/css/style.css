@@ -1,0 +1,89 @@
+.bjs-powered-by {
+    display: none;
+}
+
+.highlights-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    stroke: #2c80c8 !important;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background: none;
+    border: 0;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #007bff;
+}
+
+.dropdown-item.disabled,
+.dropdown-item:disabled {
+    color: #868e96;
+    background-color: transparent;
+}
+
+.vertical-rl {
+    writing-mode: vertical-rl;
+    filter: flipv fliph;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+input:disabled{
+    color: #8d9194;
+}
+select:disabled{
+    color: #8d9194;
+}
+.disabled{
+    color: #8d9194;
+}
+
+.selected-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    stroke: #ffcc00 !important;
+}
+
+.SubProcess-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: #dfdfdf !important;
+}
+
+.SubProcessNonCollegato-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: #ffffcc !important;
+}
+
+.Task-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: white !important;
+}
+
+.StartEvent-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: green !important;
+}
+
+.EndEvent-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: red !important;
+}
+
+.Evidenziate-shape:not(.djs-connection) .djs-visual> :nth-child(1) {
+    fill: red !important;
+}
+.pericolo_selezionato{
+    border-left: 5px solid red !important;
+}

@@ -294,9 +294,15 @@ function calcGrandTotal() {
                 netTotal += netprice;
             }
         }
-    });
-    adjustment = kp_adjustment;
-    jQuery("#adjustment").val(formatUserNumber(kp_adjustment));
+	});
+	
+	if( kp_adjustment != 0 ){
+		adjustment = kp_adjustment;
+		jQuery("#adjustment").val(formatUserNumber(kp_adjustment));
+		jQuery("#adjustment").prop("readonly", true);
+		jQuery("#adjustmentType").val('+');
+		jQuery("#adjustmentType").prop("disabled", true);
+	}
 	/* kpro@bid291120171400 end */
 	/* kpro@tom150620181140 migrazione vte18.05 end */
 

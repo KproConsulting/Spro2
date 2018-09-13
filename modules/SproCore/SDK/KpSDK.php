@@ -1281,7 +1281,7 @@ class KpSDK {
 
 					$field2 = new Vtiger_Field();
 					$field2->name = 'description';
-					$field2->table = $table_prefix.'_crmentity';
+					$field2->table = $module->basetable;
 					$field2->label = 'Description';
 					$field2->uitype = 19;
 					$field2->typeofdata = 'V~O';

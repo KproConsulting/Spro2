@@ -101,3 +101,4 @@ S-PRO 2.0
 - 05/09/2018 kpro@bid050920180945 Correzione bug che bloccava l'apertura del popup di creazione evento/compito attraverso il tasto + nel modulo Calendario
 - 05/09/2018 kpro@bid050920181500 Implementato supporto della variabile _tipo_documento_ nei template e-mail per l'invio massivo fatture e aggiunto supporto anche per le variabili standard dei template email (solo nome azienda, numero fattura, tipo documento)
 - 07/09/2018 kpro@bid070920181520 Aggiunta funzione per ricalcolare le aziende collegate agli attestati subito dopo la creazione
+- 13/09/2018 kpro@bid130920181011 Correzione bug che non faceva girare la situazione documenti standard durante la notte per causa di un campo mancante (necessario lancio manuale della query)

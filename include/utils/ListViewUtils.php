@@ -2586,10 +2586,11 @@ class ListViewUtils extends SDKExtendableUniqueClass {
 							//$unitprice=$adb->query_result($list_result,$list_result_count,'unit_price');
 							$unitprice=floatval($adb->query_result($list_result,$list_result_count,'unit_price'));
 							/* kpro@tom040920181634 end */
-
+							
 							if($_REQUEST['currencyid'] != null) {
+
 								$prod_prices = $InventoryUtils->getPricesForProducts($_REQUEST['currencyid'], array($entity_id), $module);
-								
+
 								/* kpro@tom040920181634 */
 								//$unitprice = $prod_prices[$entity_id];
 								if(isset($prod_prices[$entity_id]) && !empty($prod_prices[$entity_id])){ //mycrmv@149900
@@ -2598,9 +2599,30 @@ class ListViewUtils extends SDKExtendableUniqueClass {
 								/* kpro@tom040920181634 end */
 
 							}
+
 						} else {
 							$unit_price = '';
 						}
+
+						/* kpro@tom130920181516  */
+						$kp_prezzo_listino = '';
+						if(isset($_REQUEST['kp_listino']) && intval($_REQUEST['kp_listino']) > 0) {
+							$_SESSION['kp_listino'] = $_REQUEST['kp_listino'];
+						}
+						if(isset($_SESSION['kp_listino'])) {
+							$kp_listino = $_SESSION['kp_listino'];
+							$query = "
+								SELECT listprice
+								FROM {$table_prefix}_pricebookproductrel
+								WHERE pricebookid = ?
+								AND productid = ?
+							";
+							$res = $adb->pquery($query, array($kp_listino, $entity_id));
+							if($res && $adb->num_rows($res) > 0) {
+								$kp_prezzo_listino = $adb->query_result($res, 0, 'listprice');
+							}
+						}
+						/* kpro@tom130920181516 end */
 
 						//crmv@16267
 						$slashes_temp_val = popup_from_html($field_val);
@@ -2612,10 +2634,27 @@ class ListViewUtils extends SDKExtendableUniqueClass {
 
 						$order_code = $adb->query_result($list_result,$list_result_count,'service_no');
 
-						$tmp_arr = array("entityid"=>$entity_id,"prodname"=>"".stripslashes(decode_html(nl2br($slashes_temp_val)))."","unitprice" => formatUserNumber($unitprice),"taxstring"=>"$tax_str","rowid"=>"$row_id","desc"=>"".strip_tags($slashes_desc)."","prod_code"=>"$order_code"); // crmv@42024
+						/* kpro@tom130920181516  */
+						if($kp_prezzo_listino != ''){
+							$tmp_arr = array("entityid"=>$entity_id,"prodname"=>"".stripslashes(decode_html(nl2br($slashes_temp_val)))."","unitprice" => formatUserNumber($unitprice),"taxstring"=>"$tax_str","rowid"=>"$row_id","desc"=>"".strip_tags($slashes_desc)."","prod_code"=>"$order_code","kp_prezzo_listino"=>"$kp_prezzo_listino");
+						}
+						else{
+							$tmp_arr = array("entityid"=>$entity_id,"prodname"=>"".stripslashes(decode_html(nl2br($slashes_temp_val)))."","unitprice" => formatUserNumber($unitprice),"taxstring"=>"$tax_str","rowid"=>"$row_id","desc"=>"".strip_tags($slashes_desc)."","prod_code"=>"$order_code"); // crmv@42024
+						}
+						/* kpro@tom130920181516 end */
+
 						require_once('include/Zend/Json.php');
 						$prod_arr = str_replace("'", '&#39;', Zend_Json::encode($tmp_arr)); // crmv@92378
-						$autocomplete_return_function[$entity_id] = 'set_return_inventory("'.$entity_id.'", "'.decode_html(nl2br($slashes_temp_val)).'", "'.formatUserNumber($unitprice).'", "'.$tax_str.'","'.$row_id.'","'.strip_tags($slashes_desc).'","'.$order_code.'");'; // crmv@42024
+
+						/* kpro@tom130920181516  */
+						if($kp_prezzo_listino != ''){
+							$autocomplete_return_function[$entity_id] = 'kp_set_return_inventory("'.$entity_id.'", "'.decode_html(nl2br($slashes_temp_val)).'", "'.formatUserNumber($unitprice).'", "'.$tax_str.'","'.$row_id.'","'.strip_tags($slashes_desc).'","'.$order_code.'","'.$kp_prezzo_listino.'");'; //kpro@tom130920181516
+						}
+						else{
+							$autocomplete_return_function[$entity_id] = 'set_return_inventory("'.$entity_id.'", "'.decode_html(nl2br($slashes_temp_val)).'", "'.formatUserNumber($unitprice).'", "'.$tax_str.'","'.$row_id.'","'.strip_tags($slashes_desc).'","'.$order_code.'");'; // crmv@42024
+						}
+						/* kpro@tom130920181516  end */
+
 						$value = '<a href="javascript:void(0);" id=\'popup_product_'.$entity_id.'\' onclick=\''.$autocomplete_return_function[$entity_id].'closePopup();\'  vt_prod_arr=\''.$prod_arr.'\' >'.$temp_val.'</a>'; //crmv@21048m
 						//crmv@16267e
 					}

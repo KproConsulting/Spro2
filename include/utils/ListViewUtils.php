@@ -2606,10 +2606,24 @@ class ListViewUtils extends SDKExtendableUniqueClass {
 
 						/* kpro@tom130920181516  */
 						$kp_prezzo_listino = '';
+						$kp_listino = 0;
 						if(isset($_REQUEST['kp_listino']) && intval($_REQUEST['kp_listino']) > 0) {
 							$_SESSION['kp_listino'] = $_REQUEST['kp_listino'];
+							VteSession::set('kp_listino', $_REQUEST['kp_listino']);
 						}
-						if(isset($_SESSION['kp_listino'])) {
+						elseif(isset($_REQUEST['kp_listino'])){
+							$_SESSION['kp_listino'] = 0;
+							VteSession::set('kp_listino', 0);
+						}
+
+						if( isset($_SESSION['kp_listino']) ){
+							$kp_listino = $_SESSION['kp_listino'];
+						}
+						elseif( VteSession::hasKey('kp_listino') ){
+							$kp_listino = VteSession::get("kp_listino");
+						}
+
+						if( $kp_listino != 0 && $kp_listino != '' && $kp_listino != null ) {
 							$kp_listino = $_SESSION['kp_listino'];
 							$query = "
 								SELECT listprice

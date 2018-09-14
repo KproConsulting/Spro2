@@ -121,6 +121,44 @@ function getImageListBody() {
 	return ImageListBody;
 }
 
+/* kpro@tom130920181516 */
+function kp_set_return_inventory(product_id, product_name, unitprice, taxstr, curr_row, desc, product_code, kp_prezzo) {	//crmv@16267
+	var subprod = subprod_id.split("::");
+	//crmv@21048m
+	
+	parent.document.EditView.elements["subproduct_ids"+curr_row].value = subprod[0];
+	parent.document.getElementById("subprod_names"+curr_row).innerHTML = subprod[1];
+
+	parent.document.EditView.elements["productName"+curr_row].value = product_name;
+	parent.document.EditView.elements["hdnProductId"+curr_row].value = product_id;
+	disableReferenceField(parent.document.EditView.elements["productName"+curr_row]);	//crmv@29190
+	
+	parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(unitprice);
+	//crmv@16267
+	//parent.document.EditView.elements["comment"+curr_row].value = desc;
+	parent.document.EditView.elements["productDescription"+curr_row].value = desc;
+	parent.document.EditView.elements["hdnProductcode"+curr_row].value = product_code;
+	//crmv@16267e
+	//getOpenerObj("unitPrice"+curr_row).innerHTML = unitprice;
+	if(getOpenerObj("qtyInStock"+curr_row) != null)
+	getOpenerObj("qtyInStock"+curr_row).innerHTML = qtyinstock;
+	
+	if(!isNaN(parseFloat(kp_prezzo))) {
+		parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(kp_prezzo);
+	}
+	
+	var tax_array = new Array();
+	var tax_details = new Array();
+	tax_array = taxstr.split(',');
+	for(var i=0;i<tax_array.length;i++)
+	{
+		tax_details = tax_array[i].split('=');
+	}
+	
+	parent.document.EditView.elements["qty"+curr_row].focus();
+}
+/* kpro@tom130920181516 end */
+
 /* kpro@bid200620181800 migrazione vte18.05 */
 var module = gVTModule;
 jQuery.getScript('modules/SproCore/'+module+'/'+module+'Kp.js', function(){

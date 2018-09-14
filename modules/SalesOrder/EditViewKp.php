@@ -78,6 +78,12 @@ if (!$processMakerView) {
 			$focus->column_fields['kp_stabilimento'] = $quote_focus->column_fields['kp_stabilimento'];
 			$focus->column_fields['kp_tasse'] = $quote_focus->column_fields['kp_tasse'];	//kpro@tom250120181531
 			/* kpro@tom150620181140 migrazione vte18.05 end */
+
+			/* kpro@tom130920181516 */
+			if( array_key_exists('kp_listino', $focus->column_fields) && array_key_exists('kp_listino', $quote_focus->column_fields) ){
+				$focus->column_fields['kp_listino'] = $quote_focus->column_fields['kp_listino'];
+			}
+			/* kpro@tom130920181516 end*/
 	
 			$final_details = $InventoryUtils->getFinalDetails("Quotes",$quote_focus);	//crmv@30721
 			$smarty->assign("CONVERT_MODE", $_REQUEST['convertmode']);
@@ -239,6 +245,12 @@ if (!$processMakerView) {
 		/* kpro@bid24112017 end */
 		$focus->column_fields['kp_tasse'] = $acct_focus->column_fields['kp_tasse'];	//kpro@tom250120181531
 		/* kpro@tom150620181140 migrazione vte18.05 end */
+
+		/* kpro@tom130920181516 */
+		if( array_key_exists('kp_listino', $focus->column_fields) ){
+			$focus->column_fields['kp_listino'] = $acct_focus->column_fields['kp_listino'];
+		}
+		/* kpro@tom130920181516 end*/
 
 	}
 }

@@ -297,7 +297,14 @@ function calcolaSituazioneFormazione(){
 
 	aggiornaStatoMansioniRisorseNonAttive();
 	 
-	$default_in_scadenza = 0;
+	$id_statici = getConfigurazioniIdStatici();
+	$id_statico = $id_statici["Programmi Custom - Gestione Avvisi - Giorni per In Scadenza standard"];
+	if( $id_statico["valore"] == "" && $id_statico["valore"] == 0){
+		$default_in_scadenza = 150;
+	}
+	else{
+		$default_in_scadenza = $id_statico["valore"];
+	}
 	 
 	$lista_aziende = getAziendePerSituazioneFormazione();
 	
@@ -2816,9 +2823,9 @@ function calcolaNumeroMesiIncremento($frequenza){
         
         case "Quinquennale":	
             $numeroMesiIncremento = 60;	
-            break;
-		    
-	case "Decennale":	
+			break;
+			
+		case "Decennale":	
             $numeroMesiIncremento = 120;	
             break;
 
@@ -2826,7 +2833,7 @@ function calcolaNumeroMesiIncremento($frequenza){
             $numeroMesiIncremento = 180;	
             break;
 
-	case "Illimitata":
+		case "Illimitata":
             $numeroMesiIncremento = 999;
             break;
     }

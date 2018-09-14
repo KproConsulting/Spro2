@@ -103,6 +103,13 @@ if (!$processMakerView) {
 			$account_focus->retrieve_entity_info($account_id, "Accounts");
 			$focus->column_fields['mod_pagamento'] = $account_focus->column_fields['mod_pagamento'];
 			$focus->column_fields['kp_tasse'] = $account_focus->column_fields['kp_tasse'];	//kpro@tom250120181531
+
+			/* kpro@tom130920181516 */
+			if( array_key_exists('kp_listino', $focus->column_fields) ){
+				$focus->column_fields['kp_listino'] = $account_focus->column_fields['kp_listino'];
+			}
+			/* kpro@tom130920181516 end*/
+
 		}
 		/* kpro@bid24112017 end */
 		/* kpro@tom150620181140 migrazione vte18.05 end */
@@ -149,6 +156,12 @@ if (!$processMakerView) {
 		/* kpro@bid060220181650 end */
 		/* kpro@tom150620181140 migrazione vte18.05 end */
 
+		/* kpro@tom130920181516 */
+		if( array_key_exists('kp_listino', $focus->column_fields) ){
+			$focus->column_fields['kp_listino'] = $acct_focus->column_fields['kp_listino'];
+		}
+		/* kpro@tom130920181516 end*/
+		 
 	}
 }
 

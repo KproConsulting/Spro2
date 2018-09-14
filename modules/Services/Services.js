@@ -91,6 +91,7 @@ function set_return_inventory_po(product_id,product_name,unitprice,taxstr,curr_r
 
 function InventorySelectAllServices(mod,z,image_pth)
 {
+
     if(document.selectall.selected_id != undefined)
     {
 		var x = document.selectall.selected_id.length;
@@ -198,14 +199,31 @@ function servicePickList(currObj,module,row_no,autocomplete) {	//crmv@29190
     if(document.getElementsByName("account_id").length != 0)
     	record_id= document.EditView.account_id.value;
     //crmv@29190
-    if(record_id != '')
+    if(record_id != ''){
     	var url = "module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&relmod_id="+record_id+"&parent_module=Accounts&return_module="+module+"&currencyid="+currencyid;
-    else
+	}
+	else{
     	var url = "module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&return_module="+module+"&currencyid="+currencyid;
-   if (autocomplete == 'yes')
+	}
+
+	/* kpro@tom130920181516 */
+	kp_listino = 0;
+	if(document.getElementsByName("kp_listino").length != 0){
+		kp_listino = document.EditView.kp_listino.value;
+		if( kp_listino != 0 && kp_listino != '' ){
+			url += "&kp_listino=" + kp_listino;
+		}
+	}
+	//console.log(kp_listino);
+	/* kpro@tom130920181516 end*/
+
+	if (autocomplete == 'yes'){
 		return url;
-	else
-		openPopup("index.php?"+url,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");//crmv@21048
+	}
+	else{
+		openPopup("index.php?"+url,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");
+	}
+	//crmv@21048
 	//crmv@29190e
 }
 
@@ -231,6 +249,38 @@ function set_service_in_servicecontracts(recordid,value,target_fieldname,trackin
 	}
 }
 //crmv@19387e
+
+/* kpro@tom130920181516 */
+function kp_set_return_inventory(product_id, product_name, unitprice, taxstr, curr_row, desc, product_code, kp_prezzo) {	//crmv@16267
+	//crmv@21048
+	parent.document.EditView.elements["productName"+curr_row].value = product_name;
+	parent.document.EditView.elements["hdnProductId"+curr_row].value = product_id;
+	disableReferenceField(parent.document.EditView.elements["productName"+curr_row]);	//crmv@29190
+
+	//crmv@16267
+	//parent.document.EditView.elements["comment"+curr_row].value = desc;
+	parent.document.EditView.elements["productDescription"+curr_row].value = desc;
+	parent.document.EditView.elements["hdnProductcode"+curr_row].value = product_code;
+	//crmv@16267e
+	
+	parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(unitprice);
+	
+	if(!isNaN(parseFloat(kp_prezzo))) {
+		parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(kp_prezzo);
+	}
+
+	var tax_array = new Array();
+	var tax_details = new Array();
+	tax_array = taxstr.split(',');
+	for(var i=0;i<tax_array.length;i++)
+	{
+		tax_details = tax_array[i].split('=');
+	}
+	
+	parent.document.EditView.elements["qty"+curr_row].focus();
+	//crmv@21048e
+}
+/* kpro@tom130920181516 end */
 
 /* kpro@bid200620181800 migrazione vte18.05 */
 var module = gVTModule;

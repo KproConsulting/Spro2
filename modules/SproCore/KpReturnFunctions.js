@@ -44,7 +44,7 @@ function return_codice_fiscale_da_risorsa(entity_id, entity_name, field, codice_
 
 }
 
-function set_return_account_to_quote(entity_id, entity_name, field, bill_str, ship_str, bill_city, ship_city, bill_state, ship_state, bill_code, ship_code, bill_country, ship_country, mod_pagamento, nome_mod_pag, business_unit, nome_business_unit, agente, nome_agente, tasse) {
+function set_return_account_to_quote(entity_id, entity_name, field, bill_str, ship_str, bill_city, ship_city, bill_state, ship_state, bill_code, ship_code, bill_country, ship_country, mod_pagamento, nome_mod_pag, business_unit, nome_business_unit, agente, nome_agente, tasse, listino, nome_listino) {
 
     var formName = getReturnFormName();
     var form = getReturnForm(formName);
@@ -78,10 +78,19 @@ function set_return_account_to_quote(entity_id, entity_name, field, bill_str, sh
     form.bill_country.value = bill_country;
     form.ship_country.value = ship_country;
     form.kp_tasse.value = tasse;
+
+    /* kpro@tom130920181516 */
+    if( form.kp_tasse ){
+        if (listino != null && listino != "" && listino != 0) {
+            form.kp_listino_display.value = nome_listino;
+            form.kp_listino.value = listino;
+        }
+    }
+    /* kpro@tom130920181516 end */
 
 }
 
-function set_return_account_to_sales_order(entity_id, entity_name, field, bill_str, ship_str, bill_city, ship_city, bill_state, ship_state, bill_code, ship_code, bill_country, ship_country, mod_pagamento, nome_mod_pag, business_unit, nome_business_unit, agente, nome_agente, tasse) {
+function set_return_account_to_sales_order(entity_id, entity_name, field, bill_str, ship_str, bill_city, ship_city, bill_state, ship_state, bill_code, ship_code, bill_country, ship_country, mod_pagamento, nome_mod_pag, business_unit, nome_business_unit, agente, nome_agente, tasse, listino, nome_listino) {
 
     var formName = getReturnFormName();
     var form = getReturnForm(formName);
@@ -115,6 +124,15 @@ function set_return_account_to_sales_order(entity_id, entity_name, field, bill_s
     form.bill_country.value = bill_country;
     form.ship_country.value = ship_country;
     form.kp_tasse.value = tasse;
+
+    /* kpro@tom130920181516 */
+    if( form.kp_tasse ){
+        if (listino != null && listino != "" && listino != 0) {
+            form.kp_listino_display.value = nome_listino;
+            form.kp_listino.value = listino;
+        }
+    }
+    /* kpro@tom130920181516 end */
 
 }
 /* kpro@bid24112017 */

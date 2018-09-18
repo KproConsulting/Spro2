@@ -122,40 +122,31 @@ function getImageListBody() {
 }
 
 /* kpro@tom130920181516 */
-function kp_set_return_inventory(product_id, product_name, unitprice, taxstr, curr_row, desc, product_code, kp_prezzo) {	//crmv@16267
+function kp_set_return_inventory(product_id,product_name,unitprice,qtyinstock,taxstr,curr_row,desc,subprod_id,product_code,unit_cost,kp_prezzo) {
 	var subprod = subprod_id.split("::");
-	//crmv@21048m
-	
-	parent.document.EditView.elements["subproduct_ids"+curr_row].value = subprod[0];
-	parent.document.getElementById("subprod_names"+curr_row).innerHTML = subprod[1];
+	var jQuery_obj = jQuery;
+	var popup = false;
+	if (jQuery("form[name=EditView] #subproduct_ids"+curr_row).length <= 0){
+		jQuery_obj = parent.jQuery;
+		popup = true;
+	}
+	jQuery_obj("form[name=EditView] #subproduct_ids"+curr_row).val(subprod[0]);
+	jQuery_obj("form[name=EditView] #subprod_names"+curr_row).val(subprod[1]);
+	jQuery_obj("form[name=EditView] #productName"+curr_row).val(product_name);
+	jQuery_obj("form[name=EditView] #hdnProductId"+curr_row).val(product_id);
+	disableReferenceField(jQuery_obj("form[name=EditView] #hdnProductId"+curr_row));
 
-	parent.document.EditView.elements["productName"+curr_row].value = product_name;
-	parent.document.EditView.elements["hdnProductId"+curr_row].value = product_id;
-	disableReferenceField(parent.document.EditView.elements["productName"+curr_row]);	//crmv@29190
-	
-	parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(unitprice);
-	//crmv@16267
-	//parent.document.EditView.elements["comment"+curr_row].value = desc;
-	parent.document.EditView.elements["productDescription"+curr_row].value = desc;
-	parent.document.EditView.elements["hdnProductcode"+curr_row].value = product_code;
-	//crmv@16267e
-	//getOpenerObj("unitPrice"+curr_row).innerHTML = unitprice;
-	if(getOpenerObj("qtyInStock"+curr_row) != null)
-	getOpenerObj("qtyInStock"+curr_row).innerHTML = qtyinstock;
-	
+	jQuery_obj("form[name=EditView] #listPrice"+curr_row).val(unitprice);
 	if(!isNaN(parseFloat(kp_prezzo))) {
-		parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(kp_prezzo);
+		jQuery_obj("form[name=EditView] #listPrice"+curr_row).val(kp_prezzo);
 	}
-	
-	var tax_array = new Array();
-	var tax_details = new Array();
-	tax_array = taxstr.split(',');
-	for(var i=0;i<tax_array.length;i++)
-	{
-		tax_details = tax_array[i].split('=');
-	}
-	
-	parent.document.EditView.elements["qty"+curr_row].focus();
+
+	jQuery_obj("form[name=EditView] #productDescription"+curr_row).val(desc);
+	jQuery_obj("form[name=EditView] #hdnProductcode"+curr_row).val(product_code);
+	jQuery_obj("form[name=EditView] #qtyInStock"+curr_row).html(qtyinstock);
+	jQuery_obj("form[name=EditView] #qty"+curr_row).focus();
+	if (unit_cost != undefined) jQuery_obj("form[name=EditView] #unit_cost"+curr_row).val(unit_cost);
+	if (popup) parent.loadTaxes_Ajax(curr_row); else loadTaxes_Ajax(curr_row);
 }
 /* kpro@tom130920181516 end */
 

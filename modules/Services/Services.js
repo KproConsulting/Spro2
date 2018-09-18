@@ -251,34 +251,20 @@ function set_service_in_servicecontracts(recordid,value,target_fieldname,trackin
 //crmv@19387e
 
 /* kpro@tom130920181516 */
-function kp_set_return_inventory(product_id, product_name, unitprice, taxstr, curr_row, desc, product_code, kp_prezzo) {	//crmv@16267
-	//crmv@21048
+function kp_set_return_inventory(product_id,product_name,unitprice,taxstr,curr_row,desc,product_code,kp_prezzo) {
 	parent.document.EditView.elements["productName"+curr_row].value = product_name;
 	parent.document.EditView.elements["hdnProductId"+curr_row].value = product_id;
-	disableReferenceField(parent.document.EditView.elements["productName"+curr_row]);	//crmv@29190
+	disableReferenceField(parent.document.EditView.elements["productName"+curr_row]);
 
-	//crmv@16267
-	//parent.document.EditView.elements["comment"+curr_row].value = desc;
-	parent.document.EditView.elements["productDescription"+curr_row].value = desc;
-	parent.document.EditView.elements["hdnProductcode"+curr_row].value = product_code;
-	//crmv@16267e
-	
 	parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(unitprice);
-	
 	if(!isNaN(parseFloat(kp_prezzo))) {
 		parent.document.EditView.elements["listPrice"+curr_row].value = formatUserNumber(kp_prezzo);
 	}
 
-	var tax_array = new Array();
-	var tax_details = new Array();
-	tax_array = taxstr.split(',');
-	for(var i=0;i<tax_array.length;i++)
-	{
-		tax_details = tax_array[i].split('=');
-	}
-	
+	parent.document.EditView.elements["productDescription"+curr_row].value = desc;
+	parent.document.EditView.elements["hdnProductcode"+curr_row].value = product_code;
 	parent.document.EditView.elements["qty"+curr_row].focus();
-	//crmv@21048e
+	parent.loadTaxes_Ajax(curr_row);
 }
 /* kpro@tom130920181516 end */
 

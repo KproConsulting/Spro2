@@ -129,10 +129,15 @@ class RelBlockRun extends CRMEntity
 					{
 						$field_label_data = explode("_",$selectedfields[2]);
 						$module= $field_label_data[0];
-						if($module!=$this->primarymodule)
-							$columnslist[$fieldcolname] = "case when (".$selectedfields[0].".".$selectedfields[1]."='1')then 'yes' else case when (".$table_prefix."_crmentity$module.crmid !='') then 'no' else '-' end end as '$header_label'";
-						else
+						if($module!=$this->primarymodule){
+							//kpro@tom041020181620
 							$columnslist[$fieldcolname] = "case when (".$selectedfields[0].".".$selectedfields[1]."='1')then 'yes' else case when (".$table_prefix."_crmentity.crmid !='') then 'no' else '-' end end as '$header_label'";
+							//$columnslist[$fieldcolname] = "case when (".$selectedfields[0].".".$selectedfields[1]."='1')then 'yes' else case when (".$table_prefix."_crmentity$module.crmid !='') then 'no' else '-' end end as '$header_label'";
+							//kpro@tom041020181620 end
+						}
+						else{
+							$columnslist[$fieldcolname] = "case when (".$selectedfields[0].".".$selectedfields[1]."='1')then 'yes' else case when (".$table_prefix."_crmentity.crmid !='') then 'no' else '-' end end as '$header_label'";
+						}
 					}
 					elseif($selectedfields[0] == $table_prefix.'_activity' && $selectedfields[1] == 'status')
 					{
@@ -1690,6 +1695,8 @@ class RelBlockRun extends CRMEntity
 		if($allColumnsRestricted) {
 			$reportquery .= " limit 0";
 		}
+
+		//print_r($reportquery);die;
 
 		$log->info("ReportRun :: Successfully returned sGetSQLforReport".$relblockid);
 		return $reportquery;

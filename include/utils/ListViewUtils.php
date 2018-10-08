@@ -2616,10 +2616,10 @@ class ListViewUtils extends SDKExtendableUniqueClass {
 							VteSession::set('kp_listino', 0);
 						}
 
-						if( isset($_SESSION['kp_listino']) ){
+						if( isset($_SESSION['kp_listino']) && intval($_SESSION['kp_listino']) > 0 ){
 							$kp_listino = $_SESSION['kp_listino'];
 						}
-						elseif( VteSession::hasKey('kp_listino') ){
+						elseif( VteSession::hasKey('kp_listino') && intval(VteSession::get("kp_listino")) > 0 ){
 							$kp_listino = VteSession::get("kp_listino");
 						}
 

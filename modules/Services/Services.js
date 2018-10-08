@@ -213,6 +213,9 @@ function servicePickList(currObj,module,row_no,autocomplete) {	//crmv@29190
 		if( kp_listino != 0 && kp_listino != '' ){
 			url += "&kp_listino=" + kp_listino;
 		}
+		else{
+			url += "&kp_listino=0";
+		}
 	}
 	//console.log(kp_listino);
 	/* kpro@tom130920181516 end*/

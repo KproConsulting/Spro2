@@ -22,7 +22,9 @@ $messaggi = false;
 $q_moduli = "SELECT name as nome_modulo
         FROM {$table_prefix}_tab
         WHERE isentitytype = 1
-        AND version LIKE '%kp%'
+        AND presence = 0
+        AND (VERSION LIKE '%kp%'
+        OR customized = 1)
         AND tabid NOT IN (
         SELECT tabid
         FROM {$table_prefix}_links

@@ -82,7 +82,7 @@ class KpBPMN {
         $bpmn_xml = str_replace("bpmndi:", "", $bpmn_xml);   //kpro@tom05062018
         $bpmn_xml = str_replace("dc:", "", $bpmn_xml);   //kpro@tom05062018
     
-        $xml = simplexml_load_string($bpmn_xml);
+        $xml = simplexml_load_string($bpmn_xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         //print_r($xml);
 
@@ -891,6 +891,8 @@ class KpBPMN {
             $bpmn_json = self::converBPMNxmlToArray($bpmn_xml);
 
             if( count($bpmn_json["startEvents"]) > 0 ){
+
+                $bpmn_xml = addslashes($bpmn_xml);
 
                 $update = "UPDATE {$table_prefix}_kpprocedure SET
                             kp_bpmn_xml = '".$bpmn_xml."'

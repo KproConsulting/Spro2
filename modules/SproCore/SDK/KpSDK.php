@@ -2434,6 +2434,7 @@ class KpSDK {
 
 		$adb->query($insert);
 
+		self::addRole2Picklist($nome_campo, $new_value_seq); /* kpro@bid25102018 */
 	}
 
 	static function getPickingListSeq($nome_campo){
@@ -3450,5 +3451,124 @@ class KpSDK {
 	}
 
 	/* kpro@tom09082018 end */
+
+	/* kpro@bid25102018 */
+
+	static function ricalcoloRole2Picklist($nome_campo){
+		global $adb, $table_prefix, $default_charset;
+
+		/**
+		 * @author Bidese Jacopo
+		 * @copyright (c) 2018, Kpro Consulting Srl
+		 *
+		 * Questa funzione allinea tutti i valori della picklist passata come parametro con tutti i ruoli presenti nel sistema
+		 */
+
+		if( self::checkIfPickingListEsistente($nome_campo) ){
+
+			$q = "SELECT picklist_valueid
+				FROM {$table_prefix}_{$nome_campo}";
+			$res = $adb->query($q);
+			$num = $adb->num_rows($res);
+			for($i = 0; $i < $num; $i++){
+				$picklist_valueid = $adb->query_result($res, $i, 'picklist_valueid');
+				$picklist_valueid = html_entity_decode(strip_tags($picklist_valueid), ENT_QUOTES, $default_charset);
+
+				self::addRole2Picklist($nome_campo, $picklist_valueid);
+			}
+
+		}
+		else{
+
+			self::log("Picking-list non esistente");
+
+		}
+
+	}
+
+	static function addRole2Picklist($nome_campo, $picklist_valueid){
+		global $adb, $table_prefix, $default_charset;
+
+		/**
+		 * @author Bidese Jacopo
+		 * @copyright (c) 2018, Kpro Consulting Srl
+		 *
+		 * Questa funzione aggiunge il valore della picklist passato come parametro a tutti i ruoli presenti nel sistema 
+		 */
+
+		$picklistid = self::getPicklistId($nome_campo);
+
+		if($picklistid != 0){
+
+			$q = "SELECT roleid
+				FROM {$table_prefix}_role";
+			$res = $adb->query($q);
+			$num = $adb->num_rows($res);
+			for($i = 0; $i < $num; $i++){
+				$roleid = $adb->query_result($res, $i, 'roleid');
+				$roleid = html_entity_decode(strip_tags($roleid), ENT_QUOTES, $default_charset);
+
+				$q_check = "SELECT *
+						FROM {$table_prefix}_role2picklist
+						WHERE roleid = '{$roleid}' AND picklistvalueid = ".$picklist_valueid;
+				$res_check = $adb->query($q_check);
+				if($adb->num_rows($res_check) == 0){
+
+					$sortid = self::getRole2PicklistSortid($roleid, $picklistid);
+
+					$insert = "INSERT INTO {$table_prefix}_role2picklist
+							(roleid, picklistvalueid, picklistid, sortid)
+							VALUES ('{$roleid}', {$picklist_valueid}, $picklistid, $sortid)";
+					$adb->query($insert);
+
+					self::log("Aggiunto valore picklist al ruolo ".$roleid);
+				}
+			}
+		}
+
+	}
+
+	static function getPicklistId($nome_campo){
+		global $adb, $table_prefix, $default_charset;
+
+		$picklistid = 0;
+
+		$q = "SELECT picklistid
+			FROM {$table_prefix}_picklist
+			WHERE NAME = '{$nome_campo}'";
+		$res = $adb->query($q);
+		if($adb->num_rows($res) > 0){
+			$picklistid = $adb->query_result($res, 0, 'picklistid');
+			$picklistid = html_entity_decode(strip_tags($picklistid), ENT_QUOTES, $default_charset);
+			if($picklistid == '' || $picklistid == null){
+				$picklistid = 0;
+			}
+		}
+
+		return $picklistid;
+	}
+
+	static function getRole2PicklistSortid($roleid, $picklistid){
+		global $adb, $table_prefix, $default_charset;
+
+		$sortid = 0;
+
+		$q = "SELECT COALESCE(COUNT(*),0) AS sortid
+			FROM {$table_prefix}_role2picklist
+			WHERE roleid = '{$roleid}'
+			AND picklistid = ".$picklistid;
+		$res = $adb->query($q);
+		if($adb->num_rows($res) > 0){
+			$sortid = $adb->query_result($res, 0, 'sortid');
+			$sortid = html_entity_decode(strip_tags($sortid), ENT_QUOTES, $default_charset);
+			if($sortid == '' || $sortid == null){
+				$sortid = 0;
+			}
+		}
+
+		return $sortid;
+	}
+
+	/* kpro@bid25102018 end */
 	
 }

@@ -3943,22 +3943,40 @@ class CRMEntityBase extends VTEEntity
 
 	//crmv@25403
 	public function getFixedOrderBy($module,$order_by,$sorder){
-		global $adb, $table_prefix;
-
+		global $adb, $table_prefix, $current_user, $showfullusername; //crmv@168690
+	
 		$webservice_field = WebserviceField::fromQueryResult($adb,$adb->pquery('select * from '.$table_prefix.'_field where tabid = ? and columnname = ?',array(getTabid($module),$order_by)),0);
 		$reference_modules=$webservice_field->getReferenceList();
 		$type = $webservice_field->getFieldDataType(); //crmv@74933
 		if(!empty($reference_modules) && is_array($reference_modules)){
-			// crmv@155560
-			// it's a reference module, sort using the entityname
+			// crmv@155560 crmv@168690
 			$fieldid = $webservice_field->getFieldId();
-			return " ORDER BY entityname_fld_{$fieldid}.displayname $sorder";
-			// crmv@155560e
+			if (in_array('DocumentFolders', $reference_modules)) {
+				return " ORDER BY {$table_prefix}_crmentityfolder.foldername $sorder";
+			} elseif (in_array('Users', $reference_modules)) {
+				$queryGeneratorInstance = QueryGenerator::getInstance($module,$current_user);
+				$usersInstance = CRMEntity::getInstance('Users');
+				$referenceTable = $usersInstance->table_name;
+				// use the aliased table if there is already an owner field or if we are in the quotes/vendors (WTF!!)
+				$ownerFields = $queryGeneratorInstance->getOwnerFieldList();
+				if(count($ownerFields) > 0 || in_array($module, array('Quotes', 'Vendors'))) { // crmv@146069
+					//crmv@121417
+					$appendIndex = '_fld_'.$fieldid;
+					$referenceTable = substr($referenceTable.$appendIndex, 0, 29);
+					//crmv@121417e
+				}
+				$columnSql = $usersInstance->formatUserNameSql($adb, $referenceTable, $showfullusername);
+				return " ORDER BY {$columnSql} $sorder";
+			} else {
+				// it's a reference module, sort using the entityname
+				return " ORDER BY entityname_fld_{$fieldid}.displayname $sorder";
+			}
+			// crmv@155560e crmv@168690e
 		//crmv@74933
 		}elseif($type == 'picklistmultilanguage'){
 			$curField = $webservice_field->getFieldName();
-		    $tablename = 'tbl_pick_lang'.$curField;
-		    return  " ORDER BY {$tablename}.value  $sorder";
+			$tablename = 'tbl_pick_lang'.$curField;
+			return  " ORDER BY {$tablename}.value  $sorder";
 		}
 		//crmv@74933e
 		//crmv@127820

@@ -3949,7 +3949,7 @@ class CRMEntityBase extends VTEEntity
 		$reference_modules=$webservice_field->getReferenceList();
 		$type = $webservice_field->getFieldDataType(); //crmv@74933
 		if(!empty($reference_modules) && is_array($reference_modules)){
-			// crmv@155560 crmv@168690
+			// crmv@155560 crmv@168690	//kpro@tom051120181625
 			$fieldid = $webservice_field->getFieldId();
 			if (in_array('DocumentFolders', $reference_modules)) {
 				return " ORDER BY {$table_prefix}_crmentityfolder.foldername $sorder";
@@ -3971,7 +3971,7 @@ class CRMEntityBase extends VTEEntity
 				// it's a reference module, sort using the entityname
 				return " ORDER BY entityname_fld_{$fieldid}.displayname $sorder";
 			}
-			// crmv@155560e crmv@168690e
+			// crmv@155560e crmv@168690e //kpro@tom051120181625 end
 		//crmv@74933
 		}elseif($type == 'picklistmultilanguage'){
 			$curField = $webservice_field->getFieldName();

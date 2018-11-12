@@ -91,6 +91,7 @@ S-PRO 2.0
 - 01/08/2018 kpro@bid010820181550 Correzione bug che cancellava tutte le righe delle fatture che venivano approvate con il programma di approvazione custom
 - 08/08/2018 kpro@tom080820181453 Correzione bug che impedica la cancellazione di tipi corso
 - 23/08/2018 kpro@bid230820181130 Correzione bug che non mostrava il contatore nella related Documenti del modulo Tipi Documenti (necessario lancio manuale della query)
+- 24/08/2018 kpro@bid240820181000 Correzione query fallite nelle esportazioni standard 
 - 29/08/2018 kpro@bid290820181150 Implementato presave del modulo Interventi per gestire i controlli nel Mass Edit e anche per il campo Ore Consuntive (contrattuali)
 - 29/08/2018 kpro@bid290820181600 correzioni per php7
 - 29/08/2018 kpro@bid290820181815 Correzione bug che faceva si che, nell'import di Impianti-Componenti-Checklists, la frequenza delle checklists fosse sempre vuota
@@ -103,4 +104,7 @@ S-PRO 2.0
 - 07/09/2018 kpro@bid070920181520 Aggiunta funzione per ricalcolare le aziende collegate agli attestati subito dopo la creazione
 - 13/09/2018 kpro@bid130920181011 Correzione bug che non faceva girare la situazione documenti standard durante la notte per causa di un campo mancante (necessario lancio manuale della query)
 - 18/09/2018 kpro@bid180920180920 Correzione bug che non collegava il documento fattura alla creazione di un sollecito di pagamento
+- 04/10/2018 kpro@tom041020181620 Correzione bug PDFMaker, in alcune sittuazioni (vedi revisioni documenti) non permetteva la stampa delle related
 - 11/10/2018 kpro@bid111020181650 Correzione bug che non permetteva la modifica dei servizi a contratto con progresso maggiore del 100%
+- 05/11/2018 kpro@tom051120181625 Correzione bug che non permetteva di ordinare i documenti per cartella
+- 12/11/2018 kpro@tom121120181158 Correzione campi valuta in export excel da Report

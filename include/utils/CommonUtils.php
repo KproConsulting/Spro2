@@ -4443,12 +4443,12 @@ function getPermittedFieldsQuery($module, $disp_view)
         $tabid = getTabid($module);
 	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0 || $module == "Users")
 	{
- 		$sql = "SELECT ".$table_prefix."_field.columnname, ".$table_prefix."_field.fieldlabel, ".$table_prefix."_field.tablename FROM ".$table_prefix."_field WHERE ".$table_prefix."_field.tabid=".$tabid." AND ".$table_prefix."_field.block IN $blockid_list AND ".$table_prefix."_field.displaytype IN (1,2,4) and ".$table_prefix."_field.presence in (0,2) ORDER BY block,sequence";
+ 		$sql = "SELECT ".$table_prefix."_field.fieldname, ".$table_prefix."_field.columnname, ".$table_prefix."_field.fieldlabel, ".$table_prefix."_field.tablename FROM ".$table_prefix."_field WHERE ".$table_prefix."_field.tabid=".$tabid." AND ".$table_prefix."_field.block IN $blockid_list AND ".$table_prefix."_field.displaytype IN (1,2,4) and ".$table_prefix."_field.presence in (0,2) ORDER BY block,sequence"; // crmv@137410
   	}
   	else
   	{
 		$profileList = getCurrentUserProfileList();
-		$sql = "SELECT ".$table_prefix."_field.columnname, ".$table_prefix."_field.fieldlabel, ".$table_prefix."_field.tablename FROM ".$table_prefix."_field INNER JOIN ".$table_prefix."_def_org_field ON ".$table_prefix."_def_org_field.fieldid=".$table_prefix."_field.fieldid WHERE ".$table_prefix."_field.tabid=".$tabid." AND ".$table_prefix."_field.block IN ".$blockid_list." AND ".$table_prefix."_field.displaytype IN (1,2,4) AND ".$table_prefix."_def_org_field.visible=0 and ".$table_prefix."_field.presence in (0,2) ";
+		$sql = "SELECT ".$table_prefix."_field.fieldname, ".$table_prefix."_field.columnname, ".$table_prefix."_field.fieldlabel, ".$table_prefix."_field.tablename FROM ".$table_prefix."_field INNER JOIN ".$table_prefix."_def_org_field ON ".$table_prefix."_def_org_field.fieldid=".$table_prefix."_field.fieldid WHERE ".$table_prefix."_field.tabid=".$tabid." AND ".$table_prefix."_field.block IN ".$blockid_list." AND ".$table_prefix."_field.displaytype IN (1,2,4) AND ".$table_prefix."_def_org_field.visible=0 and ".$table_prefix."_field.presence in (0,2) "; // crmv@137410
 	    $sql.=" AND EXISTS(SELECT * FROM ".$table_prefix."_profile2field WHERE ".$table_prefix."_profile2field.fieldid = ".$table_prefix."_field.fieldid ";
 	        if (count($profileList) > 0) {
 		  	 	$sql.=" AND ".$table_prefix."_profile2field.profileid IN (". implode(",", $profileList) .") ";

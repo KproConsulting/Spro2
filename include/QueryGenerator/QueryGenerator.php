@@ -1606,12 +1606,14 @@ class QueryGenerator extends SDKExtendableClass { //crmv@42024
 	}
 	// crmv@153111e
 
+	/* kpro@tom121120181534 */
 	// crmv@137410
 	// where fields are used to build additional joins
 	public function addWhereField($fieldname) {
 		$this->whereFields[] = $fieldname;
     }
 	// crmv@137410e
+	/* kpro@tom121120181534 end */
 	
 	// crmv@97237
 	

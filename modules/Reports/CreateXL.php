@@ -208,7 +208,9 @@ if (is_array($arr_val) && is_array($arr_val[0])) {
 				$value = floatval(trim(str_replace($cell['currency_symbol'], '', $value)));
 				$sheet1->setCellValueExplicitByColumnAndRow($dcount, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 				$numberFormat = "\"{$cell['currency_symbol']}\" ".$baseNumberFormat;
-				$sheet1->getStyleBycolumnAndRow($dcount, $rowcount)->getNumberFormat()->setFormatCode($numberFormat);
+				/* kpro@tom121120181158 */
+				//$sheet1->getStyleBycolumnAndRow($dcount, $rowcount)->getNumberFormat()->setFormatCode($numberFormat); //mycrmv@168944
+				/* kpro@tom121120181158 end */
 			} elseif (is_numeric($value)) {
 				$sheet1->setCellValueExplicitByColumnAndRow($dcount, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 				$sheet1->getStyleBycolumnAndRow($dcount, $rowcount)->getNumberFormat()->setFormatCode($baseNumberFormat);

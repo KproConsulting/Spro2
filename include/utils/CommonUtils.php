@@ -4429,6 +4429,8 @@ function getPermittedBlocks($module, $disp_view)
  *	@param string $disp_view - view name, this may be create_view, edit_view or detail_view
  *	@return string $sql - query to get the list of fields which are permitted to the current user
  */
+
+/* kpro@tom121120181534 */ 
 function getPermittedFieldsQuery($module, $disp_view)
 {
 	global $adb, $log, $table_prefix;
@@ -4459,5 +4461,5 @@ function getPermittedFieldsQuery($module, $disp_view)
 	$log->debug("Exit from the function getPermittedFieldsQuery($module, $disp_view). Return value = $sql");
 	return $sql;
 }
-
+/* kpro@tom121120181534 end */ 
 // crmv@151308e

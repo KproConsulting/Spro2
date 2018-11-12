@@ -16,6 +16,9 @@
  * This class will provide utility functions to process the export data.
  * This is to make sure that the data is sanitized before sending for export
  */
+
+/* kpro@tom121120181534 tutto il file */
+
 class ExportUtils extends SDKExtendableClass {
 
 	protected $module;

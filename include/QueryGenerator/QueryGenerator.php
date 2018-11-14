@@ -1372,7 +1372,7 @@ class QueryGenerator extends SDKExtendableClass { //crmv@42024
 			unset($req['order_by']);
 			$is_grid = array_search($field->getFieldName(),$req); 			
 			if (strpos($is_grid,'GridFields') !== false) {
-				$operator = 'e';				
+				//crmv@168302 code removed /* kpro@bid141120180955 */
 			} else {
 				list($valueArray,$operator) = picklistMulti::get_search_values($field->getFieldName(),$valueArray,$operator);
 			}
@@ -1385,7 +1385,7 @@ class QueryGenerator extends SDKExtendableClass { //crmv@42024
 			$is_grid = array_search($field->getFieldName(),$req);
 			$grid_flag = false;
 			if (strpos($is_grid,'GridFields') !== false) {
-				$operator = 'e';
+				//crmv@168302 code removed /* kpro@bid141120180955 */
 				$grid_flag = true;
 			}
 			//crmv@70067e

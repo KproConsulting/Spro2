@@ -110,3 +110,4 @@ S-PRO 2.0
 - 12/11/2018 kpro@tom121120181158 Correzione campi valuta in export excel da Report
 - 12/11/2018 kpro@tom121120181534 Correzione bug che impediva di esportare i reconrd in csv quando si eseguivano dei fitri sui campi relazionati
 - 14/11/2018 kpro@bid141120180955 Correzione bug che non permetteva di filtrare correttamente nelle listview se c'erano già determinati filtri impostati
+- 15/11/2018 kpro@bid151120181550 Aggiunta funzione per riportare in automatico la Business Unit dall'azienda o dall'opportunità alla creazione di un Report Attività

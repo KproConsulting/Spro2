@@ -59,6 +59,7 @@ if($mode != 'edit'){
 
 			$accountid = 0;
 			$potentialid = 0;
+			$business_unit = 0; /* kpro@bid151120181550 */
 
 			$crmid = $adb->query_result($result_query,0,'crmid');
 			$crmid = html_entity_decode(strip_tags($crmid), ENT_QUOTES, $default_charset);
@@ -83,10 +84,11 @@ if($mode != 'edit'){
 			}
 
 			if($potentialid != 0){
-				$q_azienda = "SELECT acc.accountid
+				$q_azienda = "SELECT acc.accountid,
+							pot.kp_business_unit
 							FROM {$table_prefix}_potential pot
 							INNER JOIN {$table_prefix}_account acc ON acc.accountid = pot.related_to
-							WHERE pot.potentialid = ".$potentialid;
+							WHERE pot.potentialid = ".$potentialid; /* kpro@bid151120181550 */
 				$res_azienda = $adb->query($q_azienda);
 				if($adb->num_rows($res_azienda) > 0){
 					$accountid = $adb->query_result($res_azienda, 0, 'accountid');
@@ -94,15 +96,23 @@ if($mode != 'edit'){
 					if($accountid == null || $accountid == ""){
 						$accountid = 0;
 					}
+					/* kpro@bid151120181550 */
+					$business_unit = $adb->query_result($res_azienda, 0, 'kp_business_unit');
+					$business_unit = html_entity_decode(strip_tags($business_unit), ENT_QUOTES, $default_charset);
+					if($business_unit == null || $business_unit == ""){
+						$business_unit = 0;
+					}
+					/* kpro@bid151120181550 end */
 				}
 			}
 
 			if($accountid != 0){
 				$q_azienda = "SELECT kp_km_percorsi,
 							kp_ore_viaggio,
-							kp_spese_autostrada
+							kp_spese_autostrada,
+							kp_business_unit
 							FROM {$table_prefix}_account
-							WHERE accountid = ".$accountid;
+							WHERE accountid = ".$accountid; /* kpro@bid151120181550 */
 				$res_azienda = $adb->query($q_azienda);
 				if($adb->num_rows($res_azienda) > 0){
 					$distanza = $adb->query_result($res_azienda, 0, 'kp_km_percorsi');
@@ -122,6 +132,13 @@ if($mode != 'edit'){
 					if($pedaggio == null || $pedaggio == ""){
 						$pedaggio = 0;
 					}
+					/* kpro@bid151120181550 */
+					$business_unit = $adb->query_result($res_azienda, 0, 'kp_business_unit');
+					$business_unit = html_entity_decode(strip_tags($business_unit), ENT_QUOTES, $default_charset);
+					if($business_unit == null || $business_unit == ""){
+						$business_unit = 0;
+					}
+					/* kpro@bid151120181550 end */
 				}
 			}
 
@@ -149,6 +166,7 @@ if($mode != 'edit'){
 			if($potentialid != 0){
 				$focus->column_fields['kp_opportunita'] = $potentialid;
 			}
+			$focus->column_fields['kp_business_unit'] = $business_unit; /* kpro@bid151120181550 */
 			$focus->column_fields['assigned_user_id'] = $smownerid;
 			$focus->column_fields['evento'] = $_REQUEST['record_action'];
 		}

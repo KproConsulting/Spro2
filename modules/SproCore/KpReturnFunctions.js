@@ -270,14 +270,18 @@ function set_return_service_to_helpdesk(entity_id, entity_name, field, nome_serv
 
 }
 
-function set_return_dati_azienda_to_report_attivita(entity_id, entity_name, field, distanza, ore_viaggio, pedaggio) {
+function set_return_dati_azienda_to_report_attivita(entity_id, entity_name, field, distanza, ore_viaggio, pedaggio, business_unit_id, business_unit_name) {
 
     var formName = getReturnFormName();
     var form = getReturnForm(formName);
     form.accountid_display.value = entity_name;
     form.accountid.value = entity_id;
     disableReferenceField(form.accountid_display, form.accountid);
-
+    /* kpro@bid151120181550 */
+    form.kp_business_unit_display.value = business_unit_name;
+    form.kp_business_unit.value = business_unit_id;
+    disableReferenceField(form.kp_business_unit_display, form.kp_business_unit);
+    /* kpro@bid151120181550 end */
     form.spautostr.value = pedaggio;
     form.kmpercorsi.value = distanza;
     form.kp_ore_viaggio.value = ore_viaggio;
@@ -330,8 +334,10 @@ function set_return_frequenza_tipo_corso(entity_id, entity_name, field, validita
     form.kp_tipo_corso.value = entity_id;
     disableReferenceField(form.kp_tipo_corso_display, form.kp_tipo_corso);
 
-    form.kp_nome_corso.value = nome_corso;
-
+    if(form.kp_nome_corso.value == '' || form.kp_nome_corso.value == 0){
+        form.kp_nome_corso.value = nome_corso;
+    }
+    
     var data_formazione = form.kp_data_formazione.value;
 
     var dati = {

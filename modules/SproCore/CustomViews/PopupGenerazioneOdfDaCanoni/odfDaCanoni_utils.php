@@ -163,6 +163,16 @@ function generaOdfDaCanoni($canoni_id,$mese_fatturazione,$anno_fatturazione){
                 if($adb->num_rows($ress_servizio)>0){						 
                     $service_usageunit = $adb->query_result($ress_servizio,0,'service_usageunit'); 
                 }
+
+                /* kpro@bid211120181430 */
+                ricalcoloMeseFatturazioneCanone($canoni_id);
+
+                $competenza_canone = getCompetenzaCanone($canoni_id);
+                if($competenza_canone != ""){
+                    $description = $competenza_canone."
+".$description;
+                }
+                /* kpro@bid211120181430 end */
                 
                 $odf = CRMEntity::getInstance('OdF');
                 $odf->column_fields['tipo_odf'] = 'Canone';
@@ -194,7 +204,6 @@ function generaOdfDaCanoni($canoni_id,$mese_fatturazione,$anno_fatturazione){
                 $odf->column_fields['description'] = utf8_encode($description);
                 $odf->save('OdF', $longdesc=true, $offline_update=false, $triggerEvent=false);
         
-                ricalcoloMeseFatturazioneCanone($canoni_id);
                 $risultato = 1;
             }
         }
@@ -261,5 +270,65 @@ function ricalcoloMeseFatturazioneCanone($canoni_id){
     }
 	
 }
-	
+
+/* kpro@bid211120181430 */
+function getCompetenzaCanone($canone){
+    global $adb, $table_prefix, $current_user;
+
+    $res = '';
+
+    $q = "SELECT c.frequenza_fatturazione frequenza_fatturazione,
+        c.mese_fatturazione mese_fatturazione,
+        c.kp_anno_fatt kp_anno_fatt,
+        c.pros_mese_fatt pros_mese_fatt,
+        c.kp_pros_anno_fatt kp_pros_anno_fatt
+        FROM {$table_prefix}_canoni c
+        INNER JOIN {$table_prefix}_crmentity ent ON ent.crmid = c.canoniid
+        WHERE ent.deleted = 0 AND c.canoniid =".$canone;
+    
+    $res = $adb->query($q);
+
+    if($adb->num_rows($res)>0){
+        $frequenza_fatturazione = $adb->query_result($res,0,'frequenza_fatturazione');
+        $frequenza_fatturazione = html_entity_decode(strip_tags($frequenza_fatturazione), ENT_QUOTES,$default_charset);
+
+        $mese_fatturazione = $adb->query_result($res,0,'mese_fatturazione');
+        $mese_fatturazione = html_entity_decode(strip_tags($mese_fatturazione), ENT_QUOTES,$default_charset);
+        if($mese_fatturazione == null){
+            $mese_fatturazione = "";
+        }
+
+        $anno_fatturazione = $adb->query_result($res,0,'kp_anno_fatt');
+        $anno_fatturazione = html_entity_decode(strip_tags($anno_fatturazione), ENT_QUOTES,$default_charset);
+        if($anno_fatturazione == null){
+            $anno_fatturazione = "";
+        }
+
+        $prossimo_mese_fatturazione = $adb->query_result($res,0,'pros_mese_fatt');
+        $prossimo_mese_fatturazione = html_entity_decode(strip_tags($prossimo_mese_fatturazione), ENT_QUOTES,$default_charset);
+        if($prossimo_mese_fatturazione == null){
+            $prossimo_mese_fatturazione = "";
+        }
+
+        $prossimo_anno_fatturazione = $adb->query_result($res,0,'kp_pros_anno_fatt');
+        $prossimo_anno_fatturazione = html_entity_decode(strip_tags($prossimo_anno_fatturazione), ENT_QUOTES,$default_charset);
+        if($prossimo_anno_fatturazione == null){
+            $prossimo_anno_fatturazione = "";
+        }
+
+        if($mese_fatturazione != "" && $anno_fatturazione != "" && $prossimo_mese_fatturazione != "" && $prossimo_anno_fatturazione != ""){
+
+            if($frequenza_fatturazione == 'Mensile'){
+                $res = 'Competenza del '.$mese_fatturazione.'/'.$anno_fatturazione;
+            }
+            else{
+                $res = 'Competenza dal '.$mese_fatturazione.'/'.$anno_fatturazione.' al '.$prossimo_mese_fatturazione.'/'.$prossimo_anno_fatturazione;
+            }
+        }
+    }
+
+    return $res;
+}
+/* kpro@bid211120181430 end */
+
 ?>

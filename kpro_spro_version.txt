@@ -113,3 +113,4 @@ S-PRO 2.0
 - 15/11/2018 kpro@bid151120181550 Aggiunta funzione per riportare in automatico la Business Unit dall'azienda o dall'opportunità alla creazione di un Report Attività
 - 21/11/2018 kpro@bid211120181430 Aggiunta funzione per scrivere il periodo di competenza nella descrizione degli OdF generati dai canoni
 - 03/12/2018 kpro@bid031220181220 Commentata funzione che indirizzava al portale Verifiche Manutenzioni per le manutenzioni con tipologia Verifica
+- 05/12/2018 kpro@bid051220181600 Correzione bug che generava un loop infinito di invii mail per i report schedulati

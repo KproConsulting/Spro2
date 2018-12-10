@@ -568,7 +568,12 @@ function validateTaxes(countname) {
 	if (checkJSOverride(arguments)) return callJSOverride(arguments); //crmv@35654
 	if (checkJSExtension(arguments)) if (!callJSExtension(arguments)) return false; // crmv@65067
 
-	var taxcount = jQuery('#'+countname).val()+1;
+	//kpro@tom101220181031
+	var taxcount = parseInt( jQuery('#'+countname).val() );
+	taxcount = taxcount + 1;
+	
+	//var taxcount = jQuery('#'+countname).val()+1;
+	//kpro@tom101220181031 end
 
 	if(countname == 'tax_count') {
 		var taxprefix = 'tax';

@@ -846,7 +846,13 @@ function verificaSeAggiornamentoDiAltroTipoCorso($tipo_corso){
     $q_aggiornamento_di = "SELECT tc.tipicorsoid tipicorsoid 
                             FROM {$table_prefix}_tipicorso tc
                             INNER JOIN {$table_prefix}_crmentity ent ON ent.crmid = tc.tipicorsoid
-                            WHERE ent.deleted = 0 AND tc.aggiornamento_di = ".$tipo_corso;
+							WHERE ent.deleted = 0 AND tc.aggiornamento_di = ".$tipo_corso;
+	
+	/* kpro@tom201220181609 */
+	//Serve ad evitare che un corso sia indicato come aggiornamento di se stesso creando un loop
+	$q_aggiornamento_di .= " AND tc.tipicorsoid != ".$tipo_corso;
+	/* kpro@tom201220181609 end */
+		
     //printf("  %s  ", $q_aggiornamento_di);                         
                           
     $res_aggiornamento_di = $adb->query($q_aggiornamento_di);
@@ -901,7 +907,14 @@ function getDatiTipoCorso($tipo_corso){
         $aggiornato_da = html_entity_decode(strip_tags($aggiornato_da), ENT_QUOTES,$default_charset);
         if($aggiornato_da == null || $aggiornato_da == ''){
             $aggiornato_da = 0;
-        }
+		}
+		
+		/* kpro@tom201220181609 */
+		//Serve ad evitare che un corso sia indicato come aggiornamento di se stesso creando un loop
+		if( $aggiornato_da != 0 && $aggiornato_da == $tipo_corso ){
+			$aggiornato_da = 0;
+		}
+		/* kpro@tom201220181609 end */
         
         $formaz_scaglionata = $adb->query_result($res_tipo_corso,0,'formaz_scaglionata');
         $formaz_scaglionata = html_entity_decode(strip_tags($formaz_scaglionata), ENT_QUOTES,$default_charset);
@@ -2124,9 +2137,14 @@ function getTipoCorsoPrecedente($mansionirisorsa, $tipo_corso_aggiornamento){
     if($adb->num_rows($res_tipi_corso)>0){	
 
         $tipo_corso = $adb->query_result($res_tipi_corso, 0, 'tipo_corso');
-        $tipo_corso = html_entity_decode(strip_tags($tipo_corso), ENT_QUOTES, $default_charset);
+		$tipo_corso = html_entity_decode(strip_tags($tipo_corso), ENT_QUOTES, $default_charset);
 		
-		$result = $tipo_corso;
+		/* kpro@tom201220181609 */
+		//Serve ad evitare che un corso sia indicato come aggiornamento di se stesso creando un loop
+		if( $tipo_corso != $tipo_corso_aggiornamento ){
+			$result = $tipo_corso;
+		}
+		/* kpro@tom201220181609 end */
 		
 	}
 	
